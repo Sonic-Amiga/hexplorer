@@ -38,12 +38,10 @@ cUndo::cUndo(int m, int w, char* n)
         s_end = s_begin + ::schoweklen - 1;
 
     nazwa = n;
-    step++;
 }
 
 cUndo::~cUndo()
 {
-    step--;
     delete [] schowek;
 }
 
@@ -160,12 +158,13 @@ void cUndo::Undo()
     }
     redirected_by_undo = 0;
     SetStatus();
-    delete this;
 }
 
 void cUndo::Forget()
 {
-    while(cUndo::step)
-        delete cUndo::undo[cUndo::step - 1];
+    for (int i = 0; i < step; i++) {
+        delete undo[i];
+    }
+    step = 0;
 }
 

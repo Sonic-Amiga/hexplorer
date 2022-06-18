@@ -643,7 +643,7 @@ BOOL CALLBACK FillDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM
                     {
                         bool temp_ins = insert;
                         insert = 0;
-                        cUndo::undo[cUndo::step] = new cUndo(WM_COMMAND, 125, "Fill Selection");
+                        cUndo::Store(WM_COMMAND, 125, "Fill Selection");
                         insert = temp_ins;
                     }
 
@@ -798,7 +798,7 @@ BOOL CALLBACK ChainDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARA
                     cUndo::redirected_by_undo = 0;
                     selected_begin = temp_sb;
                     selected_end = selected_begin + crep * rep_len - 1;
-                    cUndo::undo[cUndo::step] = new cUndo(WM_COMMAND, 125, "Paste Chain");
+                    cUndo::Store(WM_COMMAND, 125, "Paste Chain");
                     insert = temp_ins;
                     MultiClipboard::Copy(tekst, rep_len);
                     ScrollHexplorer();
@@ -1160,10 +1160,10 @@ LRESULT CALLBACK OknoGlowne(HWND hwnd, unsigned int message, WPARAM wParam, LPAR
             }
             else if(lParam == 1+1)
             {
-                if(cUndo::step)
+                if (cUndo* undo = cUndo::GetLast())
                 {
                     EnableMenuItem((HMENU)wParam, 121, MF_ENABLED);
-                    cUndo::undo[cUndo::step - 1]->SetMenu((HMENU)wParam, 121);
+                    undo->SetMenu((HMENU)wParam, 121);
                 }
                 else
                 {
@@ -1967,8 +1967,9 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
                 case 46:    // Delete
                     if(selected_end < dlugosc_pliku)
                     {
-                        if(!cUndo::redirected_by_undo)
-                            cUndo::undo[cUndo::step] = new cUndo(message, wParam, "Delete");
+                        if(!cUndo::redirected_by_undo) {
+                            cUndo::Store(message, wParam, "Delete");
+                        }
                         MoveMemory(pamiec + selected_begin, pamiec + selected_end + 1, dlugosc_pliku - (selected_end + 1));
                         dlugosc_pliku -= (selected_end - selected_begin) + 1;
                         selected_end = selected_begin;
@@ -1986,8 +1987,9 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
                 case 118:  // Increment Byte
                     for(int i = selected_begin; i <= selected_end; i++)
                         pamiec[i] += 1;
-                    if(!cUndo::redirected_by_undo)
-                        cUndo::undo[cUndo::step] = new cUndo(message, wParam, "Increment Byte");
+                    if(!cUndo::redirected_by_undo) {
+                        cUndo::Store(message, wParam, "Increment Byte");
+                    }
                     SetStatus();
                     InvalidateRect(hwnd, NULL, 0);
                     saved = 0;
@@ -1995,8 +1997,9 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
                 case 119:  //Decrement Byte
                     for(int i = selected_begin; i <= selected_end; i++)
                         pamiec[i] -= 1;
-                    if(!cUndo::redirected_by_undo)
-                        cUndo::undo[cUndo::step] = new cUndo(message, wParam, "Decrement Byte");
+                    if(!cUndo::redirected_by_undo) {
+                        cUndo::Store(message, wParam, "Decrement Byte");
+                    }
                     SetStatus();
                     InvalidateRect(hwnd, NULL, 0);
                     saved = 0;
@@ -2026,7 +2029,7 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
             }
             if(wParam == 0x1A)
             {
-                if(cUndo::step)
+                if(!cUndo::empty())
                     SendMessage(h_client_wnd, WM_COMMAND, 121, 0);
                 return 0;
             }
@@ -2083,7 +2086,7 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
                 return 0;
             if(split)
             {
-                cUndo::undo[cUndo::step] = new cUndo(message, wParam, "Type");
+                cUndo::Store(message, wParam, "Type");
                 unsigned char chr = wParam;
                 if (strip_bit7) {
                     chr |= 0x80;
@@ -2097,7 +2100,7 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
                 wstaw = DecryptHex(wParam);
                 if(upper4)
                 {
-                    cUndo::undo[cUndo::step] = new cUndo(message, wParam, "Type");
+                    cUndo::Store(message, wParam, "Type");
                     pamiec[selected_end] &= 0x0F;
                     pamiec[selected_end] |= (wstaw << 4);
                     upper4 = 0;
@@ -2504,7 +2507,7 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
                         if(!cUndo::redirected_by_undo)
                         {
                             bool temp_ins = insert; insert = 1;
-                            cUndo::undo[cUndo::step] = new cUndo(WM_COMMAND, 125, "Insert File");
+                            cUndo::Push(WM_COMMAND, 125, "Insert File");
                             insert = temp_ins;
                         }
                     }
@@ -2712,7 +2715,7 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
                     }
                     break;
                 case 121:
-                    cUndo::undo[cUndo::step - 1]->Undo();
+                    cUndo::Execute();
                     ScrollTo(selected_begin);
                     break;
                 case 124:    // Copy
@@ -2741,7 +2744,7 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
                     {
                         selected_end = selected_begin + schoweklen - 1;
                         if(!cUndo::redirected_by_undo)
-                            cUndo::undo[cUndo::step] = new cUndo(message, wParam, "Paste");
+                            cUndo::Store(message, wParam, "Paste");
                         if(insert)
                         {
                             dlugosc_pliku += schoweklen;
@@ -2890,7 +2893,7 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
                     {
                         bool temp_ins = insert;
                         insert = 0;
-                        cUndo::undo[cUndo::step] = new cUndo(WM_COMMAND, 125, "Reset Selection");
+                        cUndo::Store(WM_COMMAND, 125, "Reset Selection");
                         insert = temp_ins;
                     }
                     for(int i = selected_begin; i <= selected_end; pamiec[i++] = 0);
@@ -2913,7 +2916,7 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
 
                     bool temp_ins = insert;
                     insert = 0;
-                    cUndo::undo[cUndo::step] = new cUndo(WM_COMMAND, 125, "Encryption");
+                    cUndo::Store(WM_COMMAND, 125, "Encryption");
                     insert = temp_ins;
 
                     pass_crc32 = ChecksumDlg::UniversalCRC32((unsigned char*)pass, strlen(pass));
@@ -2941,7 +2944,7 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
                 {
                     bool temp_ins = insert;
                     insert = 0;
-                    cUndo::undo[cUndo::step] = new cUndo(WM_COMMAND, 125, "Pseudo Random");
+                    cUndo::Store(WM_COMMAND, 125, "Pseudo Random");
                     insert = temp_ins;
 
 
@@ -2978,7 +2981,7 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
                     break;
                 case 138:   // Swap 16-bit
                     if(!cUndo::redirected_by_undo)
-                        cUndo::undo[cUndo::step] = new cUndo(message, wParam, "Swap Bytes (16 bit)");
+                        cUndo::Store(message, wParam, "Swap Bytes (16 bit)");
                     for(int i = selected_begin; i < selected_end; i+=2)
                     {
                         int tmp;
@@ -2992,7 +2995,7 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
                     break;
                 case 139:   // Swap 32-bit
                     if(!cUndo::redirected_by_undo)
-                        cUndo::undo[cUndo::step] = new cUndo(message, wParam, "Swap Bytes (32 bit)");
+                        cUndo::Store(message, wParam, "Swap Bytes (32 bit)");
                     for(int i = selected_begin; i < selected_end-2; i+=4)
                     {
                         int tmp;
@@ -3009,7 +3012,7 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
                     break;
                 case 144:   // Swap 64-bit
                     if(!cUndo::redirected_by_undo)
-                        cUndo::undo[cUndo::step] = new cUndo(message, wParam, "Swap Bytes (64 bit)");
+                        cUndo::Store(message, wParam, "Swap Bytes (64 bit)");
                     for(int i = selected_begin; i < selected_end-6; i+=8)
                     {
                         int tmp;
@@ -3032,7 +3035,7 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
                     break;
                 case 159:
                     if(!cUndo::redirected_by_undo)
-                        cUndo::undo[cUndo::step] = new cUndo(message, wParam, "Flip Bytes");
+                        cUndo::Store(message, wParam, "Flip Bytes");
                     for(int i = selected_begin; i < selected_begin+(selected_end-selected_begin)/2+1; i++)
                     {
                         int tmp;
@@ -3099,7 +3102,7 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
                     for(int i = selected_begin; i <= selected_end; i++)
                         pamiec[i] = ~pamiec[i];
                     if(!cUndo::redirected_by_undo)
-                        cUndo::undo[cUndo::step] = new cUndo(message, wParam, "Negate Selection");
+                        cUndo::Store(message, wParam, "Negate Selection");
                     SetStatus();
                     InvalidateRect(hwnd, NULL, 0);
                     saved = 0;
@@ -3303,8 +3306,9 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
             return 0;
         case WM_USER + 1:   // Replace
         {
-            if(!cUndo::redirected_by_undo)
-                cUndo::undo[cUndo::step] = new cUndo(message, wParam, "Replace");
+            if(!cUndo::redirected_by_undo) {
+                cUndo::Store(message, wParam, "Replace");
+            }
             int sel = selected_end - selected_begin + 1;
             if(schoweklen != sel)
             {

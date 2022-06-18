@@ -152,7 +152,7 @@ void member::SetValue(const void* adres, char* szNewValue)
         selected_end = selected_begin + GetSize() - 1;
         bool temp_ins = insert;
         insert = 0;
-        cUndo::undo[cUndo::step] = new cUndo(WM_COMMAND, 125, "Set Value");
+        cUndo::Store(WM_COMMAND, 125, "Set Value");
         insert = temp_ins;
         selected_begin = sb_temp;
         selected_end = se_temp;
