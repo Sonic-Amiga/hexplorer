@@ -430,7 +430,7 @@ bool Find(bool forward)
     return 1;
 }
 
-BOOL CALLBACK FindDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK FindDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
 {
     char hex[STD_BUF];
     cPosition p[200];
@@ -508,7 +508,7 @@ BOOL CALLBACK FindDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM
     return FALSE;
 }
 
-BOOL CALLBACK ReplaceDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK ReplaceDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
 {
     static bool found = 1;
     char hex[STD_BUF];
@@ -618,7 +618,7 @@ BOOL CALLBACK ReplaceDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPA
     return FALSE;
 }
 
-BOOL CALLBACK FillDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK FillDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
@@ -709,7 +709,7 @@ BOOL CALLBACK FillDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM
     return FALSE;
 }
 
-BOOL CALLBACK DiskDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DiskDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
 {
   char txt[STD_BUF];
     switch (message)
@@ -746,7 +746,7 @@ BOOL CALLBACK DiskDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM
     return FALSE;
 }
 
-BOOL CALLBACK ChainDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK ChainDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
@@ -836,7 +836,7 @@ BOOL CALLBACK ChainDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARA
     return FALSE;
 }
 
-BOOL CALLBACK GoToDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK GoToDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
 {
     char bufor[10];
     switch (message)
@@ -948,7 +948,7 @@ BOOL CALLBACK GoToDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM
     return FALSE;
 }
 
-BOOL CALLBACK HighlightDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK HighlightDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
@@ -3787,7 +3787,7 @@ void SetColumnNum(int num)
     ScrollHexplorer();
 }
 
-BOOL CALLBACK OptionsDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK OptionsDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
 {
     char tekst[200];
     RECT rect;
@@ -3920,7 +3920,7 @@ BOOL CALLBACK OptionsDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPA
     return FALSE;
 }
 
-BOOL CALLBACK TimeDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK TimeDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
 {
     static FILETIME f_time[3];
     static SYSTEMTIME s_time[3];

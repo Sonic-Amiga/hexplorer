@@ -95,9 +95,9 @@ inline unsigned char ToHex4bits(unsigned char znak)
         default: return znak + 48;
     }
 }
-BOOL CALLBACK NewValueDlgProc(HWND, unsigned int, WPARAM, LPARAM);
-BOOL CALLBACK TimeDlgProc(HWND, unsigned int, WPARAM, LPARAM);
-BOOL CALLBACK AboutDlgProc(HWND, unsigned int, WPARAM, LPARAM);
+INT_PTR CALLBACK NewValueDlgProc(HWND, unsigned int, WPARAM, LPARAM);
+INT_PTR CALLBACK TimeDlgProc(HWND, unsigned int, WPARAM, LPARAM);
+INT_PTR CALLBACK AboutDlgProc(HWND, unsigned int, WPARAM, LPARAM);
 inline void IntelMotorola(unsigned char*adr,int len)
 {
   for(int i=0; i < len/2; i++)

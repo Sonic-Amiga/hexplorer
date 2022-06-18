@@ -148,7 +148,7 @@ void member::SetValue(const void* adres, char* szNewValue)
     {
         int sb_temp = selected_begin;
         int se_temp = selected_end;
-        selected_begin = (unsigned int)adres - (unsigned int)pamiec;
+        selected_begin = (INT_PTR)adres - (INT_PTR)pamiec;
         selected_end = selected_begin + GetSize() - 1;
         bool temp_ins = insert;
         insert = 0;
@@ -210,7 +210,7 @@ void member::Write(HANDLE plik)
 
 // class structure
 
-BOOL CALLBACK AddStructDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK AddStructDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
 {
     switch(message)
     {
@@ -235,7 +235,7 @@ BOOL CALLBACK AddStructDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, L
     return FALSE;
 }
 
-BOOL CALLBACK AddMemberDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK AddMemberDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
 {
     static member m;
     switch(message)
@@ -261,7 +261,7 @@ BOOL CALLBACK AddMemberDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, L
                     typ = (type)SendMessage(GetDlgItem(hDlg, 1001), CB_GETCURSEL, 0, 0);
                     GetWindowText(GetDlgItem(hDlg, 1000), tekst, 200);
                     m = member(tekst, typ, rep);
-                    EndDialog(hDlg, (int)&m);
+                    EndDialog(hDlg, (INT_PTR)&m);
                     return TRUE;
                 case IDCANCEL:
                     EndDialog(hDlg, 0);
@@ -547,7 +547,7 @@ void ListChildDlg::SetRadix(unsigned char r)
 
 // class SViewerDlg
 
-BOOL CALLBACK SViewDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK SViewDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
 {
     switch(message)
     {
@@ -664,7 +664,7 @@ SViewerDlg::SViewerDlg(structure* s)
     char* tips[] = {"Select structure", "", "Delete structure", "Add member", "Remove member", "Radix", "Structure size", "Clone member"};
     for(int i = 0; i < 8; i++)
     {
-        ti.uId = (unsigned int)GetDlgItem(hDlg, 1000 + i);
+        ti.uId = (UINT_PTR)GetDlgItem(hDlg, 1000 + i);
         ti.lpszText = tips[i];
         SendMessage(h_tool_tip, TTM_ADDTOOL, 0, (LPARAM) (LPTOOLINFO) &ti);
     }
@@ -758,7 +758,7 @@ void SViewerDlg::Clone(HWND hDlg, int numer)
 
 // class SimpleDataDlg
 
-BOOL CALLBACK SimpleDataDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK SimpleDataDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
 {
     char tekst[200];
     //static int top_index;
@@ -855,11 +855,11 @@ SimpleDataDlg::SimpleDataDlg()
     ti.hinst = hInstance;
     char* tips[] = {"Radix", "Copy to clipboard"};
 
-    ti.uId = (unsigned int)GetDlgItem(hDlg, 1008);
+    ti.uId = (UINT_PTR)GetDlgItem(hDlg, 1008);
     ti.lpszText = tips[0];
     SendMessage(h_tool_tip, TTM_ADDTOOL, 0, (LPARAM)(LPTOOLINFO)&ti);
 
-    ti.uId = (unsigned int)GetDlgItem(hDlg, 1009);
+    ti.uId = (UINT_PTR)GetDlgItem(hDlg, 1009);
     ti.lpszText = tips[1];
     SendMessage(h_tool_tip, TTM_ADDTOOL, 0, (LPARAM)(LPTOOLINFO)&ti);
 
@@ -923,7 +923,7 @@ void SimpleDataDlg::CopyToClipboard()
 
 // class ChecksumDlg
 
-BOOL CALLBACK ChecksumDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK ChecksumDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
 {
     char tekst[200];
     static int top_index;
@@ -1229,7 +1229,7 @@ unsigned int ChecksumDlg::UniversalCRC32(unsigned char*data, int len)
 
 // class OccurenceDlg
 
-BOOL CALLBACK OccurenceDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK OccurenceDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
 {
     char tekst[200];
     switch(message)
@@ -1315,7 +1315,7 @@ void OccurenceDlg::SetHighlight()
 
 // class NavigatorDlg
 
-BOOL CALLBACK NavigatorDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK NavigatorDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
 {
     char tekst[200];
     static int top_index;
@@ -1406,10 +1406,10 @@ NavigatorDlg::NavigatorDlg(cPosition p[], int n)
     ti.uFlags = TTF_SUBCLASS | TTF_IDISHWND;
     ti.hwnd = h_tool_bar;
     ti.hinst = hInstance;
-    ti.uId = (unsigned int)GetDlgItem(hDlg, 1005);
+    ti.uId = (UINT_PTR)GetDlgItem(hDlg, 1005);
     ti.lpszText = "Radix";
     SendMessage(h_tool_tip, TTM_ADDTOOL, 0, (LPARAM) (LPTOOLINFO) &ti);
-    ti.uId = (unsigned int)GetDlgItem(hDlg, 1006);
+    ti.uId = (UINT_PTR)GetDlgItem(hDlg, 1006);
     ti.lpszText = "Reset";
     SendMessage(h_tool_tip, TTM_ADDTOOL, 0, (LPARAM) (LPTOOLINFO) &ti);
 }
@@ -1473,7 +1473,7 @@ NavigatorFindDlg::~NavigatorFindDlg()
 
 // class PixelDlg
 
-BOOL CALLBACK PixelDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK PixelDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
 {
     switch(message)
     {
@@ -1552,7 +1552,7 @@ PixelDlg::PixelDlg(int col) //  = 250
     char* tips[] = {"Size of view", "Bits per pixel", "Set this column number", "Enter new column number"};
     for(int i = 0; i < 5; i++)
     {
-        ti.uId = (unsigned int)GetDlgItem(hDlg, 1000 + i);
+        ti.uId = (UINT_PTR)GetDlgItem(hDlg, 1000 + i);
         ti.lpszText = tips[i];
         SendMessage(h_tool_tip, TTM_ADDTOOL, 0, (LPARAM)(LPTOOLINFO)&ti);
     }
@@ -1738,7 +1738,7 @@ void DrawPixels(void* pParam)
 
 // class PatternsDlg
 
-BOOL CALLBACK PatternsDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK PatternsDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
 {
     switch(message)
     {
@@ -1798,19 +1798,19 @@ PatternsDlg::PatternsDlg()
     ti.hinst = hInstance;
     char* tips[] = {"Select all", "Enter minimum pattern length", "Enter maximum pattern length", "Set these lengths"};
 
-    ti.uId = (unsigned int)GetDlgItem(hDlg, 1008);
+    ti.uId = (UINT_PTR)GetDlgItem(hDlg, 1008);
     ti.lpszText = tips[0];
     SendMessage(h_tool_tip, TTM_ADDTOOL, 0, (LPARAM)(LPTOOLINFO)&ti);
 
-    ti.uId = (unsigned int)GetDlgItem(hDlg, 1000);
+    ti.uId = (UINT_PTR)GetDlgItem(hDlg, 1000);
     ti.lpszText = tips[1];
     SendMessage(h_tool_tip, TTM_ADDTOOL, 0, (LPARAM)(LPTOOLINFO)&ti);
 
-    ti.uId = (unsigned int)GetDlgItem(hDlg, 1003);
+    ti.uId = (UINT_PTR)GetDlgItem(hDlg, 1003);
     ti.lpszText = tips[2];
     SendMessage(h_tool_tip, TTM_ADDTOOL, 0, (LPARAM)(LPTOOLINFO)&ti);
 
-    ti.uId = (unsigned int)GetDlgItem(hDlg, 1002);
+    ti.uId = (UINT_PTR)GetDlgItem(hDlg, 1002);
     ti.lpszText = tips[3];
     SendMessage(h_tool_tip, TTM_ADDTOOL, 0, (LPARAM)(LPTOOLINFO)&ti);
 
@@ -1899,7 +1899,7 @@ void CalculatePatterns(void*pParam)
 
 // class fourier
 
-BOOL CALLBACK FourierDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK FourierDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
 {
     switch(message)
     {
@@ -1963,23 +1963,23 @@ FourierDlg::FourierDlg()
     ti.hinst = hInstance;
     char* tips[] = {"Select all", "Enter minimal trigger value to add to the list", "Select data type", "Set these parameters", "Save transform in file"};
 
-    ti.uId = (unsigned int)GetDlgItem(hDlg, 1008);
+    ti.uId = (UINT_PTR)GetDlgItem(hDlg, 1008);
     ti.lpszText = tips[0];
     SendMessage(h_tool_tip, TTM_ADDTOOL, 0, (LPARAM)(LPTOOLINFO)&ti);
 
-    ti.uId = (unsigned int)GetDlgItem(hDlg, 1000);
+    ti.uId = (UINT_PTR)GetDlgItem(hDlg, 1000);
     ti.lpszText = tips[1];
     SendMessage(h_tool_tip, TTM_ADDTOOL, 0, (LPARAM)(LPTOOLINFO)&ti);
 
-    ti.uId = (unsigned int)GetDlgItem(hDlg, 1003);
+    ti.uId = (UINT_PTR)GetDlgItem(hDlg, 1003);
     ti.lpszText = tips[2];
     SendMessage(h_tool_tip, TTM_ADDTOOL, 0, (LPARAM)(LPTOOLINFO)&ti);
 
-    ti.uId = (unsigned int)GetDlgItem(hDlg, 1002);
+    ti.uId = (UINT_PTR)GetDlgItem(hDlg, 1002);
     ti.lpszText = tips[3];
     SendMessage(h_tool_tip, TTM_ADDTOOL, 0, (LPARAM)(LPTOOLINFO)&ti);
 
-    ti.uId = (unsigned int)GetDlgItem(hDlg, 1009);
+    ti.uId = (UINT_PTR)GetDlgItem(hDlg, 1009);
     ti.lpszText = tips[4];
     SendMessage(h_tool_tip, TTM_ADDTOOL, 0, (LPARAM)(LPTOOLINFO)&ti);
 
@@ -2272,7 +2272,7 @@ long m=order;
 
 // class disassembler
 
-BOOL CALLBACK DisassemblerDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DisassemblerDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
 {
     char tekst[200];
     switch(message)

@@ -178,7 +178,7 @@ void ToUnicode(char*str)
     }
 }
 
-BOOL CALLBACK NewValueDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK NewValueDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
 {
     static char szNew[STD_BUF];
     switch(message)
@@ -193,7 +193,7 @@ BOOL CALLBACK NewValueDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LP
                 case IDOK:
                     //char tekst[STD_BUF];
                     GetWindowText(GetDlgItem(hDlg, 1000), szNew, 200);
-                    EndDialog(hDlg, (int)szNew);
+                    EndDialog(hDlg, (INT_PTR)szNew);
                     return TRUE;
                 case IDCANCEL:
                     EndDialog(hDlg, 0);
@@ -203,7 +203,7 @@ BOOL CALLBACK NewValueDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LP
     return FALSE;
 }
 
-BOOL CALLBACK AboutDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK AboutDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM lParam)
 {
     switch(message)
     {
