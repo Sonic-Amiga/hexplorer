@@ -1,3 +1,9 @@
+#include <windows.h>
+
+#ifndef IDC_STATIC
+#define IDC_STATIC -1
+#endif
+
 600 BITMAP  DISCARDABLE    "hexplorer_green02.bmp"
 
 ABOUT DIALOG DISCARDABLE  0, 0, 311, 170

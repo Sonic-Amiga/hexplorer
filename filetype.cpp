@@ -41,7 +41,8 @@ void cFileType::ReadAll()
     HANDLE plik;
     unsigned char bufor[50000];
     char module_name[MAX_PATH];
-    int file_size, pos, name_size, header_size, br;
+    int file_size, pos, name_size, header_size;
+    DWORD br;
     //WIN32_FIND_DATA w32fd;
 
     filetype[liczba] = new cFileType(NULL, "Unknown", 0);
@@ -60,7 +61,7 @@ void cFileType::ReadAll()
     else
     {
         file_size = GetFileSize(plik, NULL);
-        ReadFile(plik, bufor, file_size, &(DWORD)br, NULL);
+        ReadFile(plik, bufor, file_size, &br, NULL);
         CloseHandle(plik);
 
         pos = 0;

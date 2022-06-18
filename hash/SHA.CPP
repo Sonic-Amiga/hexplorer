@@ -5,6 +5,7 @@
 
 //#include <exception>
 //#include <strstream>
+#include<cstring>
 #include<string>
 
 using namespace std;

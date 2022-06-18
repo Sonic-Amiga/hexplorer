@@ -224,7 +224,7 @@ private:
     HWND h_tool_tip;
     int MIN_COL;
     int MAX_COL;
-    static const double MAX_DOUBLE = 1.7E308;
+    static constexpr double MAX_DOUBLE = 1.7E308;
 public:
     PatternsDlg();
     ~PatternsDlg()

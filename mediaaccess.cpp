@@ -25,7 +25,7 @@ cDiskAccess::cDiskAccess(char num)
   }
 
   if(!
-    DeviceIoControl(hDisk, IOCTL_DISK_GET_DRIVE_GEOMETRY, NULL, 0, &diskGeometry, sizeof(DISK_GEOMETRY), &(DWORD)br, NULL)
+    DeviceIoControl(hDisk, IOCTL_DISK_GET_DRIVE_GEOMETRY, NULL, 0, &diskGeometry, sizeof(DISK_GEOMETRY), &br, NULL)
   )
   {
     iErrorCode=HEX_MEDIA_ERR_ACCESSING_DISK_GEOMETRY;

@@ -4,8 +4,11 @@ Core written (C)2002 by ICY. All rights reserved.
 Compile with mingw32 (mingw.org) a gcc for Windows.
 ******************************************************/
 
-#include"c:\mingw\include\winuser.h"
+#include <winuser.h>
 
+#ifndef IDC_STATIC
+#define IDC_STATIC -1
+#endif
 
 500 ICON "hexplorer.ico"
 501 ICON "open.ico"
@@ -141,7 +144,7 @@ BEGIN
     END
     POPUP "&Disk"
     BEGIN
-        MENUITEM SEPARATOR,                    2666
+        MENUITEM SEPARATOR
         MENUITEM "Next Sector(s)\tF12",                 2302
         MENUITEM "Previous Sector(s)\tF11",             2303
         MENUITEM "Write Sector(s)",             2304
@@ -260,7 +263,7 @@ BEGIN
     END
     POPUP "&Structures"
     BEGIN
-        MENUITEM SEPARATOR,                      666
+        MENUITEM SEPARATOR
         MENUITEM "Add &New...",                   299
     END
     POPUP "&Crypto"
@@ -274,7 +277,7 @@ BEGIN
     END
     POPUP "&Macro"
     BEGIN
-        MENUITEM SEPARATOR,                       665
+        MENUITEM SEPARATOR
         MENUITEM "&Record...",                   398
         MENUITEM "&Stop",                        399
     END
@@ -381,7 +384,7 @@ BEGIN
     BEGIN
         MENUITEM "Navigator",                     157
         MENUITEM SEPARATOR
-        MENUITEM "Close"
+        MENUITEM "Close",                         1024
     END
 END
 

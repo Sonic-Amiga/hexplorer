@@ -23,6 +23,7 @@
 #pragma implementation "srec_output"
 
 #include <errno.h>
+#include <string.h>
 #include <iostream>
 using namespace std;
 

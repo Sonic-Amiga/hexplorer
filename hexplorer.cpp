@@ -260,18 +260,19 @@ char* cRecent::Read(char* b)
 
 void cRecent::Write(HANDLE plik)
 {
-    int br;
-    WriteFile(plik, &pg_offset, sizeof(int), &(DWORD)br, NULL);
-    WriteFile(plik, &selected_begin, sizeof(int), &(DWORD)br, NULL);
-    WriteFile(plik, &selected_end, sizeof(int), &(DWORD)br, NULL);
-    WriteFile(plik, &split, sizeof(bool), &(DWORD)br, NULL);
-    WriteFile(plik, &insert, sizeof(bool), &(DWORD)br, NULL);
+    DWORD br;
+
+    WriteFile(plik, &pg_offset, sizeof(int), &br, NULL);
+    WriteFile(plik, &selected_begin, sizeof(int), &br, NULL);
+    WriteFile(plik, &selected_end, sizeof(int), &br, NULL);
+    WriteFile(plik, &split, sizeof(bool), &br, NULL);
+    WriteFile(plik, &insert, sizeof(bool), &br, NULL);
     for(int i = 0; i < cPosition::MAX_POSITION; i++)
     {
-        WriteFile(plik, &position[i].pos, sizeof(int), &(DWORD)br, NULL);
-        WriteFile(plik, position[i].description, strlen(position[i].description) + 1, &(DWORD)br, NULL);
+        WriteFile(plik, &position[i].pos, sizeof(int), &br, NULL);
+        WriteFile(plik, position[i].description, strlen(position[i].description) + 1, &br, NULL);
     }
-    WriteFile(plik, nazwa, strlen(nazwa) + 1, &(DWORD)br, NULL);
+    WriteFile(plik, nazwa, strlen(nazwa) + 1, &br, NULL);
 }
 
 void cRecent::SetHexplorerTitle()
@@ -1037,7 +1038,8 @@ BOOL CALLBACK HighlightDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, L
 
 LRESULT CALLBACK OknoGlowne(HWND hwnd, unsigned int message, WPARAM wParam, LPARAM lParam)
 {
-    int br, toolbar_size;
+    DWORD br;
+    int toolbar_size;
     static char module_name[MAX_PATH];
     static WINDOWPLACEMENT wndpl;
     switch(message)
@@ -1056,7 +1058,7 @@ LRESULT CALLBACK OknoGlowne(HWND hwnd, unsigned int message, WPARAM wParam, LPAR
             if(plik != INVALID_HANDLE_VALUE)
             {
                 file_size = GetFileSize(plik, NULL);
-                ReadFile(plik, bufor, file_size, &(DWORD)br, NULL);
+                ReadFile(plik, bufor, file_size, &br, NULL);
                 CloseHandle(plik);
                 Font::actual = *(int*)bufor;    bufor += sizeof(int);
                 hexColors::scheme = *(char*)bufor;    bufor += sizeof(char);
@@ -1210,31 +1212,31 @@ LRESULT CALLBACK OknoGlowne(HWND hwnd, unsigned int message, WPARAM wParam, LPAR
             return 0;
         case WM_DESTROY:
             plik = CreateFile(module_name, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, 0, NULL);
-            WriteFile(plik, &Font::actual, sizeof(int), &(DWORD)br, NULL);
-            WriteFile(plik, &hexColors::scheme, sizeof(char), &(DWORD)br, NULL);
+            WriteFile(plik, &Font::actual, sizeof(int), &br, NULL);
+            WriteFile(plik, &hexColors::scheme, sizeof(char), &br, NULL);
 
-            WriteFile(plik, &column_num, sizeof(int), &(DWORD)br, NULL);
-            WriteFile(plik, &auto_column, sizeof(bool), &(DWORD)br, NULL);
-            WriteFile(plik, &column_group, sizeof(int), &(DWORD)br, NULL);
-            WriteFile(plik, &using_unicode, sizeof(bool), &(DWORD)br, NULL);
+            WriteFile(plik, &column_num, sizeof(int), &br, NULL);
+            WriteFile(plik, &auto_column, sizeof(bool), &br, NULL);
+            WriteFile(plik, &column_group, sizeof(int), &br, NULL);
+            WriteFile(plik, &using_unicode, sizeof(bool), &br, NULL);
 
-            WriteFile(plik, &always_ontop, sizeof(bool), &(DWORD)br, NULL);
-            WriteFile(plik, &hide_toolbar, sizeof(bool), &(DWORD)br, NULL);
-            WriteFile(plik, &hexFind_forward, sizeof(bool), &(DWORD)br, NULL);
-            WriteFile(plik, &hexFind_from_cursor, sizeof(bool), &(DWORD)br, NULL);
-            WriteFile(plik, &align_structures, sizeof(bool), &(DWORD)br, NULL);
-            WriteFile(plik, &highlight_size, sizeof(int), &(DWORD)br, NULL);
-            WriteFile(plik, highlight, highlight_size, &(DWORD)br, NULL);
-            WriteFile(plik, &highlightbeta_size, sizeof(int), &(DWORD)br, NULL);
-            WriteFile(plik, highlightbeta, highlightbeta_size, &(DWORD)br, NULL);
-            WriteFile(plik, &highlightgamma_size, sizeof(int), &(DWORD)br, NULL);
-            WriteFile(plik, highlightgamma, highlightgamma_size, &(DWORD)br, NULL);
-            WriteFile(plik, &goto_dec, sizeof(bool), &(DWORD)br, NULL);
-            WriteFile(plik, &goto_mode, sizeof(int), &(DWORD)br, NULL);
+            WriteFile(plik, &always_ontop, sizeof(bool), &br, NULL);
+            WriteFile(plik, &hide_toolbar, sizeof(bool), &br, NULL);
+            WriteFile(plik, &hexFind_forward, sizeof(bool), &br, NULL);
+            WriteFile(plik, &hexFind_from_cursor, sizeof(bool), &br, NULL);
+            WriteFile(plik, &align_structures, sizeof(bool), &br, NULL);
+            WriteFile(plik, &highlight_size, sizeof(int), &br, NULL);
+            WriteFile(plik, highlight, highlight_size, &br, NULL);
+            WriteFile(plik, &highlightbeta_size, sizeof(int), &br, NULL);
+            WriteFile(plik, highlightbeta, highlightbeta_size, &br, NULL);
+            WriteFile(plik, &highlightgamma_size, sizeof(int), &br, NULL);
+            WriteFile(plik, highlightgamma, highlightgamma_size, &br, NULL);
+            WriteFile(plik, &goto_dec, sizeof(bool), &br, NULL);
+            WriteFile(plik, &goto_mode, sizeof(int), &br, NULL);
 
             wndpl.length = sizeof(WINDOWPLACEMENT);
             GetWindowPlacement(h_main_wnd, &wndpl);
-            WriteFile(plik, &wndpl, wndpl.length, &(DWORD)br, NULL);
+            WriteFile(plik, &wndpl, wndpl.length, &br, NULL);
             cRecent::WriteAll(plik);
             CloseHandle(plik);
             structure::WriteAll();
@@ -1485,7 +1487,7 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
 {
     static HINSTANCE hInstance;
     static OPENFILENAME ofn;
-    unsigned int br;
+    DWORD br;
     static HDC ekran;
     static HBITMAP bmp;
     static HMENU hPopupMenu;
@@ -1840,7 +1842,7 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
             {
                 case 16: shift = 1; break;
                 case 17: control = 1; break;
-                // Obs³uga klawiaturowa zak³adek
+                // Obsï¿½uga klawiaturowa zakï¿½adek
                 case 48: case 49: case 50: case 51: case 52: case 53: case 54: case 55: case 56: case 57: case 58:
                     if(control)
                         if(shift)
@@ -2166,7 +2168,7 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
                             dlugosc_pliku = GetFileSize(plik, NULL);
                             bytes_allocated = dlugosc_pliku + STD_OVERALLOC;
 
-                            ReadFile(plik, pamiec, dlugosc_pliku, &(DWORD)br, NULL);
+                            ReadFile(plik, pamiec, dlugosc_pliku, &br, NULL);
 
                             cUndo::Forget();
                             cRecent::Add(nazwa_pliku);
@@ -2193,7 +2195,7 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
                             MessageBox(hwnd, "Could not write to file", szAppName, 0);
                         else
                         {
-                            WriteFile(plik, pamiec, dlugosc_pliku, &(DWORD)br, NULL);
+                            WriteFile(plik, pamiec, dlugosc_pliku, &br, NULL);
                             CloseHandle(plik);
                             saved = 1;
                             SetStatus();
@@ -2209,7 +2211,7 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
                     if(GetSaveFileName(&ofn))
                     {
                         plik = CreateFile(nazwa_pliku, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, 0, NULL);
-                        WriteFile(plik, pamiec, dlugosc_pliku, &(DWORD)br, NULL);
+                        WriteFile(plik, pamiec, dlugosc_pliku, &br, NULL);
                         CloseHandle(plik);
                         saved = 1;
                         files=1;
@@ -2235,7 +2237,7 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
                             MessageBox(hwnd, "Could not write to file", szAppName, 0);
                         else
                         {
-                            WriteFile(plik, pamiec, dlugosc_pliku, &(DWORD)br, NULL);
+                            WriteFile(plik, pamiec, dlugosc_pliku, &br, NULL);
                             CloseHandle(plik);
                         }
                         ShellExecute(hwnd, "open", temp_file, NULL, NULL, SW_SHOWNORMAL);
@@ -2482,7 +2484,7 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
                         pamiec = new unsigned char [dlugosc_pliku + STD_OVERALLOC];
                         bytes_allocated = dlugosc_pliku + STD_OVERALLOC;
                         CopyMemory(pamiec, temp, selected_begin + 1);
-                        ReadFile(plik, pamiec + selected_begin, GetFileSize(plik, NULL), &(DWORD)br, NULL);
+                        ReadFile(plik, pamiec + selected_begin, GetFileSize(plik, NULL), &br, NULL);
                         CopyMemory(pamiec + selected_begin + GetFileSize(plik, NULL), temp + selected_begin, dlugosc_pliku - selected_begin - GetFileSize(plik, NULL));
                         delete [] temp;
                         CloseHandle(plik);
@@ -2694,7 +2696,7 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
                     if(GetSaveFileName(&ofn))
                     {
                         plik = CreateFile(nazwa_pliku_temp, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, 0, NULL);
-                        WriteFile(plik, pamiec + selected_begin, selected_end - selected_begin + 1, &(DWORD)br, NULL);
+                        WriteFile(plik, pamiec + selected_begin, selected_end - selected_begin + 1, &br, NULL);
                         CloseHandle(plik);
                         MultiClipboard::Copy(pamiec + selected_begin, selected_end - selected_begin + 1);
                     }
@@ -3255,8 +3257,8 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
                         InternetCloseHandle(hiVer);
                         break;
                     }
-                    int r;
-                    InternetReadFile(hiFile, temp, 2000, &(DWORD)r);
+                    DWORD r;
+                    InternetReadFile(hiFile, temp, 2000, &r);
                     InternetCloseHandle(hiFile);
                     InternetCloseHandle(hiVer);
                     if(memcmp(szAppName, temp, strlen(szAppName)))

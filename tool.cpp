@@ -202,10 +202,10 @@ void member::SetValue(const void* adres, char* szNewValue)
 
 void member::Write(HANDLE plik)
 {
-    int br;
-    WriteFile(plik, name, strlen(name) + 1, &(DWORD)br, 0);
-    WriteFile(plik, &typ, sizeof(type), &(DWORD)br, 0);
-    WriteFile(plik, &rep, sizeof(int), &(DWORD)br, 0);
+    DWORD br;
+    WriteFile(plik, name, strlen(name) + 1, &br, 0);
+    WriteFile(plik, &typ, sizeof(type), &br, 0);
+    WriteFile(plik, &rep, sizeof(int), &br, 0);
 }
 
 // class structure
@@ -276,9 +276,9 @@ structure* structure::st[500];
 
 void structure::Write(HANDLE plik)
 {
-    int br;
-    WriteFile(plik, nazwa, strlen(nazwa) + 1, &(DWORD)br, 0);
-    WriteFile(plik, &mem_num, sizeof(int), &(DWORD)br, 0);
+    DWORD br;
+    WriteFile(plik, nazwa, strlen(nazwa) + 1, &br, 0);
+    WriteFile(plik, &mem_num, sizeof(int), &br, 0);
     for(int i = 0; i < mem_num; i++)
         skladniki[i]->Write(plik);
 }
@@ -395,7 +395,8 @@ void structure::ReadAll()
     HANDLE plik;
     unsigned char b[10000];
     unsigned char* bufor = b;
-    int file_size, br, to_create, to_add_members;
+    int file_size, to_create, to_add_members;
+    DWORD br;
     char module_name[MAX_PATH];
     //GetModuleFileName(NULL, module_name, MAX_PATH - 1);
     //strcpy(module_name + strlen(module_name) - 10, "structures.dat");
@@ -408,7 +409,7 @@ void structure::ReadAll()
     else
     {
         file_size = GetFileSize(plik, NULL);
-        ReadFile(plik, bufor, file_size, &(DWORD)br, NULL);
+        ReadFile(plik, bufor, file_size, &br, NULL);
         CloseHandle(plik);
         to_create = *(int*)bufor;   bufor += sizeof(int);
         for(int i = 0; i < to_create; i++)
@@ -430,7 +431,7 @@ void structure::ReadAll()
 void structure::WriteAll()
 {
     HANDLE plik;
-    int br;
+    DWORD br;
     char module_name[MAX_PATH];
     //GetModuleFileName(NULL, module_name, MAX_PATH - 1);
     //strcpy(module_name + strlen(module_name) - 13, "structures.dat");
@@ -438,7 +439,7 @@ void structure::WriteAll()
     strcat(module_name, "structures.dat");
 
     plik = CreateFile(module_name, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, 0, NULL);
-    WriteFile(plik, &num, sizeof(int), &(DWORD)br, 0);
+    WriteFile(plik, &num, sizeof(int), &br, 0);
     for(int i = 0; i < num; i++)
         st[i]->Write(plik);
     CloseHandle(plik);
@@ -2242,7 +2243,7 @@ long m=order;
   if(*((FourierDlg*)pParam)->file)
   {
     HANDLE plik;
-    int bw;
+    DWORD bw;
     char tmp_txt[STD_BUF];
 
     plik = CreateFile(((FourierDlg*)pParam)->file, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, 0, NULL);
@@ -2250,7 +2251,7 @@ long m=order;
     {
       _gcvt(x[i], 10, tmp_txt);
       strcat(tmp_txt, "\r\n");
-      WriteFile(plik, tmp_txt, strlen(tmp_txt), &(DWORD)bw, NULL);
+      WriteFile(plik, tmp_txt, strlen(tmp_txt), &bw, NULL);
     }
     CloseHandle(plik);
     *((FourierDlg*)pParam)->file=0;   // means - i wrote, file closed
@@ -2317,12 +2318,12 @@ void DisassemblerDlg::Display()
         inst_len[i]=sprint_address(tekst, STD_BUF, (char*)(pamiec+komorka_disasm));
         komorka_disasm+=inst_len[i];
 
-        int len=strlen(tekst),i=0;
-        while(tekst[i]!=9)i++;
-        tekst[i]=' ';
+        int len=strlen(tekst),j=0;
+        while(tekst[j]!=9)j++;
+        tekst[j]=' ';
 
         for(int k=i;k<15-i;k++)
-          MoveMemory(tekst+k+1,tekst+k,len-i+1);
+          MoveMemory(tekst+k+1,tekst+k,len-j+1);
 
         SendMessage(GetDlgItem(hDlg, 1001), LB_ADDSTRING, 0, (LPARAM)tekst);
     }

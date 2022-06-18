@@ -22,10 +22,10 @@ MultiClipboard::MultiClipboard(unsigned char*d, int l)
 
 MultiClipboard::MultiClipboard(HANDLE plik)
 {
-    int br;
-    ReadFile(plik, &len, sizeof(int), &(DWORD)br, NULL);
+    DWORD br;
+    ReadFile(plik, &len, sizeof(int), &br, NULL);
     data = new unsigned char[len];
-    ReadFile(plik, data, len, &(DWORD)br, NULL);
+    ReadFile(plik, data, len, &br, NULL);
     serial = total;
     total++;
 }
@@ -87,22 +87,23 @@ void MultiClipboard::SetMenu(HMENU hMenu)
 
 void MultiClipboard::Write(HANDLE plik)
 {
-    int br;
-    WriteFile(plik, &len, sizeof(int), &(DWORD)br, NULL);
-    WriteFile(plik, data, len, &(DWORD)br, NULL);
+    DWORD br;
+    WriteFile(plik, &len, sizeof(int), &br, NULL);
+    WriteFile(plik, data, len, &br, NULL);
 }
 
 void MultiClipboard::ReadAll()
 {
     HANDLE plik;
-    int tot, br;
+    int tot;
+    DWORD br;
     char nazwa_pliku[MAX_PATH];
     GetModulePath(nazwa_pliku);
     strcat(nazwa_pliku, "mclip.dat");
     plik = CreateFile(nazwa_pliku, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
     if(plik != INVALID_HANDLE_VALUE)
     {
-        ReadFile(plik, &tot, sizeof(int), &(DWORD)br, NULL);
+        ReadFile(plik, &tot, sizeof(int), &br, NULL);
         for(int i = 0; i < tot; i++)
             vc[MultiClipboard::total] = new MultiClipboard(plik);
         CloseHandle(plik);
@@ -112,12 +113,12 @@ void MultiClipboard::ReadAll()
 void MultiClipboard::WriteAll()
 {
     HANDLE plik;
-    int br;
+    DWORD br;
     char nazwa_pliku[MAX_PATH];
     GetModulePath(nazwa_pliku);
     strcat(nazwa_pliku, "mclip.dat");
     plik = CreateFile(nazwa_pliku, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, 0, NULL);
-    WriteFile(plik, &total, sizeof(int), &(DWORD)br, NULL);
+    WriteFile(plik, &total, sizeof(int), &br, NULL);
     for(int i = 0; i < total; i++)
         vc[i]->Write(plik);
     CloseHandle(plik);

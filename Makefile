@@ -36,19 +36,15 @@ srec_win_quit.o : srec_win_quit.h srec_win_quit.cpp
 
 
 
-rsrc.o : rsrc.res
-	windres.exe -o rsrc.o rsrc.res
-rsrc.res : rsrc.rc
-	c:/bc45/bin/brcc32 -forsrc.res rsrc.rc
+rsrc.o : rsrc.rc
+	windres.exe -o rsrc.o rsrc.rc
 
 about.dll : about.o logo.o
 	ld -o about.dll -shared about.o logo.o
 about.o : about.cpp
 	g++ -c about.cpp
-logo.o : logo.res
-	windres.exe -o logo.o logo.res
-logo.res : logo.rc
-	c:/bc45/bin/brcc32 logo.rc
+logo.o : logo.rc
+	windres.exe -o logo.o logo.rc
 
 MessageDigest.o : hash/MessageDigest.cpp hash/MessageDigest.h
 	g++.exe -c hash/MessageDigest.cpp $(SWITCHES)

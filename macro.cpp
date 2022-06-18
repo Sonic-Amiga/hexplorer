@@ -29,11 +29,11 @@ macro::~macro()
     if(modified)
     {
         HANDLE plik;
-        int bw;
+        DWORD bw;
         plik = CreateFile(nazwa, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, 0, NULL);
-        WriteFile(plik, &action_num, sizeof(int), &(DWORD)bw, NULL);
+        WriteFile(plik, &action_num, sizeof(int), &bw, NULL);
         for(int i = 0; i < action_num; i++)
-            WriteFile(plik, (char*)action[i]+sizeof(HWND), sizeof(UINT)+sizeof(WPARAM)+sizeof(LPARAM), &(DWORD)bw, NULL);
+            WriteFile(plik, (char*)action[i]+sizeof(HWND), sizeof(UINT)+sizeof(WPARAM)+sizeof(LPARAM), &bw, NULL);
         CloseHandle(plik);
     }
     delete nazwa;
@@ -84,16 +84,17 @@ void macro::ReadAll()
     if(search != INVALID_HANDLE_VALUE)
         do
         {
-            int atoms, br;
+            int atoms;
+            DWORD br;
             MSG atom;
             GetModulePath(hem_path);
             strcat(hem_path, wfa.cFileName);
             mac[num] = new macro(hem_path);
             plik = CreateFile(hem_path, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
-            ReadFile(plik, &atoms, sizeof(int), &(DWORD)br, NULL);
+            ReadFile(plik, &atoms, sizeof(int), &br, NULL);
             for(int i = 0; i < atoms; i++)
             {
-                ReadFile(plik, (char*)&atom+sizeof(HWND), sizeof(UINT)+sizeof(WPARAM)+sizeof(LPARAM), &(DWORD)br, NULL);
+                ReadFile(plik, (char*)&atom+sizeof(HWND), sizeof(UINT)+sizeof(WPARAM)+sizeof(LPARAM), &br, NULL);
                 mac[num - 1]->AddAction(&atom);
             }
             CloseHandle(plik);

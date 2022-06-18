@@ -15,7 +15,7 @@ protected:
   int iErrorCode;
   __int64 lSize;
   bool bInsert;
-  int br;
+  DWORD br;
   char pname[STD_BUF];
 public:
   cMediaAccess() : iErrorCode(0) {};

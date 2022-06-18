@@ -24,6 +24,7 @@
 
 #include <srec/input/file/fastload.h>
 #include <srec/record.h>
+#include <cstring>
 
 
 srec_input_file_fastload::srec_input_file_fastload(const char *filename) :
