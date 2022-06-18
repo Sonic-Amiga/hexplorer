@@ -1,0 +1,328 @@
+'\" t
+.\"	srecord - manipulate eprom load files
+.\"	Copyright (C) 1998, 2000-2003 Peter Miller;
+.\"	All rights reserved.
+.\"
+.\"	This program is free software; you can redistribute it and/or modify
+.\"	it under the terms of the GNU General Public License as published by
+.\"	the Free Software Foundation; either version 2 of the License, or
+.\"	(at your option) any later version.
+.\"
+.\"	This program is distributed in the hope that it will be useful,
+.\"	but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"	GNU General Public License for more details.
+.\"
+.\"	You should have received a copy of the GNU General Public License
+.\"	along with this program; if not, write to the Free Software
+.\"	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111, USA.
+.\"
+.\" MANIFEST: source of the README file
+.\"
+.TH "Read Me" SRecord SRecord "Reference Manual"
+.so version.so
+.hy 0
+.ad l
+.SH NAME
+RSecord \- manipulate EPROM load files
+.XX "" "The README file"
+.SH DESCRIPTION
+The \fISRecord\fP package is a collection of powerful tools for
+manipulating EPROM load files.
+.PP
+I wrote SRecord because when I was looking for programs to manipulate
+EPROM load files, I could not find very many.  The ones that I could
+find only did a few of the things I needed.  SRecord is written in C++
+and polymorphism is used to provide the file format flexibility and
+arbitrary filter chaining.  Adding more file formats and filters is
+relatively simple.
+.SS The File Formats
+The SRecord package understands a number of file formats:
+.TP 8n
+Ascii-Hex
+The ascii-hex format is understood for both reading and writing.
+(Also known as the ascii-space-hex format.)
+.TP
+ASM
+It is possible, for output only, to produce a serices of DB statements
+containing the data.  This can be useful for embedding data into assembler
+programs.
+This format cannot be read.
+.TP 8n
+Atmel Generic
+This format is produced by the Atmel AVR assembler.
+It is understood for both reading and writing.
+.TP
+BASIC
+It is possible, for output only, to produce a serices of DATA statements
+containing the data.  This can be useful for embedding data into BASIC
+programs.
+This format cannot be read.
+.TP 8n
+Binary
+Binary files can both be read and written.
+.TP 8n
+C
+It is also possible to write a C array declaration which contains the data.
+This can be useful when you want to embed download data into C programs.
+This format cannot be read.
+.TP 8n
+Cosmac
+The RCA Cosmac Elf format is understood for both reading and writing.
+.TP
+DEC Binary
+The DEC Binary (XXDP) format is understood for both reading and writing.
+.TP
+Elektor Monitor (EMON52)
+The EMON52 format is understood for both reading and writing.
+.TP
+Fairchild Fairbug
+The Fairchild Fairbug format is understood for both reading and writing.
+.TP
+LSI Logic Fast Load
+The LSI Logic Fast Load format is understood for both reading and writing.
+.TP
+Formatted Binary
+The Formatted Binary format is understood for both reading and writing.
+.TP
+Four Packed Code (FPC)
+The FPC format is understood for both reading and writing.
+.TP 8n
+Intel
+The Intel hexadecimal format is understood for both reading and writing.
+(Also known as the Intel MCS-86 Object format.)
+.TP 8n
+MOS Technology
+The MOS Technology hexadecimal format is understood for both reading
+and writing.
+.TP 8n
+Motorola S-Record
+The Motorola hexadecimal S-Record format is understood for both reading
+and writing.
+(Also known as the Exorciser, Exormacs or Exormax format.)
+.TP 8n
+The Needham Electronics ASCII file format is understood for noth reading
+and writing.
+.TP 8n
+OS65V
+The Ohio Scientific hexadecimal format is understood for both reading
+and writing.
+.TP 8n
+Signetics
+The Signetics format is understood for both reading and writing.
+.TP 8n
+SPASM
+The SPASM format is used by a variety of PIC programmers; it is understood
+for both reading and writing.
+.TP 8n
+Spectrum
+The Spectrum format is understood for both reading and writing.
+.TP 8n
+Tektronix (Extended)
+The Tektronix hexadecimal format and the Tektronix Extended hexadecimal
+format are both understood for both reading and writing.
+.TP 8n
+Texas Instruments Tagged
+The Texas Instruments Tagged format is understood for both reading and writing.
+(Also known as the TI-tagged or TI-SDSMAC format.)
+.TP
+VHDL
+It is possible to write VHDL file.
+This is only supported for output.
+.TP 8n
+Wilson
+The Wilson format is understood for both reading and writing.
+This mystery format was added for a mysterious type of EPROM writer.
+.SS The Tools
+The primary tools of the package are \fIsrec_cat\fP and \fIsrec_cmp\fP.
+All of the tools understand all of the file formats, and all of the filters.
+.TP 8n
+.I srec_cat
+The \fIsrec_cat\fP program may be used to catenate (join) EPROM load
+files, or portions of EPROM load files, together.  Because it understands
+all of the input and output formats, it can also be used to convert
+files from one format to another.
+.TP 8n
+.I srec_cmp
+The \fIsrec_cmp\fP program may be use to compare EPROM load files,
+or portions of EPROM load files, for equality.
+.TP 8n
+.I srec_info
+The \fIsrec_info\fP program may be used to print summary information
+about EPROM load files.
+.SS The Filters
+The \fISRecord\fP package is made more powerful by the concept of \fIinput
+filters\fP.  Wherever an input file may be specified, filters may also
+be applied to that input file.  The following filters are available:
+.TP 8n
+checksum
+The \fIchecksum\fP filter may be used to insert the checksum of the data
+(bitnot, negative or positive) into the data.
+.TP 8n
+byte swap
+The \fIbyte swap\fP filter may be used to swap pairs of add and even bytes.
+.TP 8n
+CRC
+The \fIcrc\fP filters may be used to insert a CRC into the data. 
+.TP 8n
+crop
+The \fIcrop\fP filter may be used to isolate an input address range,
+or ranges, and discard the rest.
+.TP 8n
+exclude
+The \fIexclude\fP filter may be used to exclude an input address range,
+or ranges, and keep the rest.
+.TP 8n
+fill
+The \fIfill\fP filter may be used to fill any holes in the data
+with a nominated value.
+.TP 8n
+length
+The \fIlength\fP filter may be used to insert the data length into the data.
+.TP 8n
+maximum
+The \fImaximum\fP filter may be used to insert the maximum data address
+into the data.
+.TP 8n
+minimum
+The \fIminimum\fP filter may be used to insert the minimum data address
+into the data.
+.TP 8n
+offset
+The \fIoffset\fP filter may be used to offset the address of data records,
+both forwards and backwards.
+.TP 8n
+split
+The \fIsplit\fP filter may be used to split EPROM images for wide data
+buses or other memory striping schemes.
+.TP 8n
+unsplit
+The \fIunsplit\fP filter may be reverse the effects of the split filter.
+.PP
+More than one filter may be applied to each input file.
+Different filters may be applied to each input file.
+All filters may be applied to all file formats.
+.br
+.ne 1i
+.SH ARCHIVE SITE
+The latest version of
+.I SRecord
+is available on the Web from:
+.RS 4m
+.TS
+tab(;);
+l l s
+l l l.
+URL:;http://srecord.sourceforge.net/
+File:;srecord.html;# the SRecord page
+File:;srecord-\*(v).README;# Description, from the tar file
+File:;srecord-\*(v).lsm;# Description, LSM format
+File:;srecord-\*(v).spec;# RedHat package specification
+File:;srecord-\*(v).tar.gz;# the complete source
+File:;srecord-\*(v).pdf;# Reference Manual
+.TE
+.RE
+.PP
+This Web page also contains a few other pieces of software written by me.
+Please have a look if you are interested.
+.PP
+SRecord is also carried by \f(CWsunsite.unc.edu\fP in its Linux archives.
+You will be able to find SRecord on any of its mirrors.
+.RS 4m
+.TS
+tab(;);
+l l s
+l l l.
+URL:;ftp://sunsite.unc.edu/pub/Linux/apps/circuits/
+File:;srecord-\*(v).README;# Description, from the tar file
+File:;srecord-\*(v).lsm;# Description, LSM format
+File:;srecord-\*(v).spec;# RedHat package specification
+File:;srecord-\*(v).tar.gz;# the complete source
+File:;srecord-\*(v).pdf;# Reference Manual
+.TE
+.RE
+This site is extensively mirrored around the world,
+so look for a copy near you (you will get much better response).
+.SS FTP by EMail
+For those of you without Web or FTP access,
+I recommend the use of an ftp-by-email server.
+Here is a list of a few (there may be more):
+.TS
+center,tab(;);
+l l.
+ftpmail@cs.uow.edu.au;Australia
+ftpmail@ftp.uni-stuttgart.de;Germany
+ftpmail@grasp.insa-lyon.fr;France
+ftpmail@doc.ic.ac.uk;Great Britain
+ftpmail@ieunet.ie;Ireland
+ftpmail@sunsite.unc.edu;USA
+ftpmail@ftp.uu.net;USA
+.TE
+.PP
+In general, you can get a help message about how to use each system
+by sending email with a subject of "help"
+and a message body containing just the word "help".
+.br
+.ne 1i
+.SH BUILDING SRECORD
+Full instructions for building
+.I SRecord
+may be found in the
+.I BUILDING
+file included in this distribution.
+.LP
+It is also possible to build \fISRecord\fP on Windows using the
+Cygwin (www.cygwin.com) or DJGPP (www.delorie.com/djgpp) environments.
+Instructions are in the \fIBUILDING\fP file, including how to get native
+Windows binaries.
+.br
+.ne 1i
+.SH COPYRIGHT
+.I srecord
+version \*(v)
+.br
+Copyright
+.if t \(co
+.if n (C)
+\*(Y) Peter Miller;
+All rights reserved.
+.PP
+This program is free software;
+you can redistribute it
+and/or modify it under the terms of the GNU General Public
+License as published by the Free Software Foundation;
+either version 2 of the License,
+or (at your option) any later version.
+.PP
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY;
+without even the implied
+warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+PURPOSE.
+See the GNU General Public License for more details.
+.PP
+You should have received a copy of the GNU General Public
+License along with this program; if not, write to the Free
+Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111, USA.
+.PP
+It should be in the
+.I LICENSE
+file included with this distribution.
+.br
+.ne 1i
+.SH AUTHOR
+.TS
+tab(;);
+l l l.
+Peter Miller;E-Mail:;millerp@canb.auug.org.au
+\f(CW/\e/\e*\fP;WWW:;http://www.canb.auug.org.au/~millerp/
+.TE
+.br
+.bp
+.SH RELEASE NOTES
+.XX "" "Release Notes"
+This section details the various features and bug fixes of the various
+releases.  For excruciating and complete detail, and also credits for
+those of you who have generously sent me suggestions and bug reports,
+see the \fIetc/CHANGES.*\fP files.
+.so new.so

@@ -1,0 +1,14 @@
+600 BITMAP  DISCARDABLE    "hexplorer_green02.bmp"
+
+ABOUT DIALOG DISCARDABLE  0, 0, 311, 170
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About Hexplorer"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "Close",IDOK,254,7,50,14
+    CONTROL         600, IDC_STATIC, "Static", 0x0000000EL | 0x00001000L, 7,7,121,159
+    LTEXT           "Hexplorer v.2.17b (C) 2002-2003\nProgramming:\n- Marcin Dudek (www.icy.prv.pl)\nIcons: \n- Alfer (alfer@mp.pl)\nLogo:\n- Tomek K (sec@poczta.fm)\nTesting: baldhorse, mciek, Kuba W.\nThis is free program, you can use it with no warranty - see help for details. Please send suggestions and bug reports to mdudek@wszib.edu.pl. Newer versions and other info available at www.icy.prv.pl",
+                    IDC_STATIC,125,17,115,162
+    GROUPBOX        "",IDC_STATIC,120,7,121,145
+END
+

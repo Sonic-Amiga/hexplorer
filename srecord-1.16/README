@@ -1,0 +1,478 @@
+Read Me(SRecord)                                              Read Me(SRecord)
+
+
+
+[1mNAME[0m
+       RSecord - manipulate EPROM load files
+
+[1mDESCRIPTION[0m
+       The [4mSRecord[24m package is a collection of powerful tools for manipulating
+       EPROM load files.
+
+       I wrote SRecord because when I was looking for programs to manipulate
+       EPROM load files, I could not find very many.  The ones that I could
+       find only did a few of the things I needed.  SRecord is written in C++
+       and polymorphism is used to provide the file format flexibility and
+       arbitrary filter chaining.  Adding more file formats and filters is
+       relatively simple.
+
+   [1mThe File Formats[0m
+       The SRecord package understands a number of file formats:
+
+       Ascii-Hex
+               The ascii-hex format is understood for both reading and
+               writing.  (Also known as the ascii-space-hex format.)
+
+       ASM     It is possible, for output only, to produce a serices of DB
+               statements containing the data.  This can be useful for
+               embedding data into assembler programs.  This format cannot be
+               read.
+
+       Atmel Generic
+               This format is produced by the Atmel AVR assembler.  It is
+               understood for both reading and writing.
+
+       BASIC   It is possible, for output only, to produce a serices of DATA
+               statements containing the data.  This can be useful for
+               embedding data into BASIC programs.  This format cannot be
+               read.
+
+       Binary  Binary files can both be read and written.
+
+       C       It is also possible to write a C array declaration which
+               contains the data.  This can be useful when you want to embed
+               download data into C programs.  This format cannot be read.
+
+       Cosmac  The RCA Cosmac Elf format is understood for both reading and
+               writing.
+
+       DEC Binary
+               The DEC Binary (XXDP) format is understood for both reading and
+               writing.
+
+       Elektor Monitor (EMON52)
+               The EMON52 format is understood for both reading and writing.
+
+       Fairchild Fairbug
+               The Fairchild Fairbug format is understood for both reading and
+               writing.
+
+       LSI Logic Fast Load
+               The LSI Logic Fast Load format is understood for both reading
+               and writing.
+
+       Formatted Binary
+               The Formatted Binary format is understood for both reading and
+               writing.
+
+       Four Packed Code (FPC)
+               The FPC format is understood for both reading and writing.
+
+       Intel   The Intel hexadecimal format is understood for both reading and
+               writing.  (Also known as the Intel MCS-86 Object format.)
+
+       MOS Technology
+               The MOS Technology hexadecimal format is understood for both
+               reading and writing.
+
+       Motorola S-Record
+               The Motorola hexadecimal S-Record format is understood for both
+               reading and writing.  (Also known as the Exorciser, Exormacs or
+               Exormax format.)
+
+       The Needham Electronics ASCII file format is understood for noth
+       reading
+               and writing.
+
+       OS65V   The Ohio Scientific hexadecimal format is understood for both
+               reading and writing.
+
+       Signetics
+               The Signetics format is understood for both reading and
+               writing.
+
+       SPASM   The SPASM format is used by a variety of PIC programmers; it is
+               understood for both reading and writing.
+
+       Spectrum
+               The Spectrum format is understood for both reading and writing.
+
+       Tektronix (Extended)
+               The Tektronix hexadecimal format and the Tektronix Extended
+               hexadecimal format are both understood for both reading and
+               writing.
+
+       Texas Instruments Tagged
+               The Texas Instruments Tagged format is understood for both
+               reading and writing.  (Also known as the TI-tagged or TI-SDSMAC
+               format.)
+
+       VHDL    It is possible to write VHDL file.  This is only supported for
+               output.
+
+       Wilson  The Wilson format is understood for both reading and writing.
+               This mystery format was added for a mysterious type of EPROM
+               writer.
+
+   [1mThe Tools[0m
+       The primary tools of the package are [4msrec_cat[24m and [4msrec_cmp[24m.  All of the
+       tools understand all of the file formats, and all of the filters.
+
+       [4msrec_cat[0m
+               The [4msrec_cat[24m program may be used to catenate (join) EPROM load
+               files, or portions of EPROM load files, together.  Because it
+               understands all of the input and output formats, it can also be
+               used to convert files from one format to another.
+
+       [4msrec_cmp[0m
+               The [4msrec_cmp[24m program may be use to compare EPROM load files, or
+               portions of EPROM load files, for equality.
+
+       [4msrec_info[0m
+               The [4msrec_info[24m program may be used to print summary information
+               about EPROM load files.
+
+   [1mThe Filters[0m
+       The [4mSRecord[24m package is made more powerful by the concept of [4minput[0m
+       [4mfilters[24m.  Wherever an input file may be specified, filters may also be
+       applied to that input file.  The following filters are available:
+
+       checksum
+               The [4mchecksum[24m filter may be used to insert the checksum of the
+               data (bitnot, negative or positive) into the data.
+
+       byte swap
+               The [4mbyte[24m [4mswap[24m filter may be used to swap pairs of add and even
+               bytes.
+
+       CRC     The [4mcrc[24m filters may be used to insert a CRC into the data.
+
+       crop    The [4mcrop[24m filter may be used to isolate an input address range,
+               or ranges, and discard the rest.
+
+       exclude The [4mexclude[24m filter may be used to exclude an input address
+               range, or ranges, and keep the rest.
+
+       fill    The [4mfill[24m filter may be used to fill any holes in the data with
+               a nominated value.
+
+       length  The [4mlength[24m filter may be used to insert the data length into
+               the data.
+
+       maximum The [4mmaximum[24m filter may be used to insert the maximum data
+               address into the data.
+
+       minimum The [4mminimum[24m filter may be used to insert the minimum data
+               address into the data.
+
+       offset  The [4moffset[24m filter may be used to offset the address of data
+               records, both forwards and backwards.
+
+       split   The [4msplit[24m filter may be used to split EPROM images for wide
+               data buses or other memory striping schemes.
+
+       unsplit The [4munsplit[24m filter may be reverse the effects of the split
+               filter.
+
+       More than one filter may be applied to each input file.  Different
+       filters may be applied to each input file.  All filters may be applied
+       to all file formats.
+
+[1mARCHIVE SITE[0m
+       The latest version of [4mSRecord[24m is available on the Web from:
+
+           URL:    http://srecord.sourceforge.net/
+           File:   srecord.html          # the SRecord page
+           File:   srecord-1.16.README   # Description, from the tar file
+           File:   srecord-1.16.lsm      # Description, LSM format
+           File:   srecord-1.16.spec     # RedHat package specification
+           File:   srecord-1.16.tar.gz   # the complete source
+           File:   srecord-1.16.pdf      # Reference Manual
+
+       This Web page also contains a few other pieces of software written by
+       me.  Please have a look if you are interested.
+
+       SRecord is also carried by sunsite.unc.edu in its Linux archives.  You
+       will be able to find SRecord on any of its mirrors.
+
+           URL:    ftp://sunsite.unc.edu/pub/Linux/apps/circuits/
+           File:   srecord-1.16.README   # Description, from the tar file
+
+           File:   srecord-1.16.lsm      # Description, LSM format
+           File:   srecord-1.16.spec     # RedHat package specification
+           File:   srecord-1.16.tar.gz   # the complete source
+           File:   srecord-1.16.pdf      # Reference Manual
+       This site is extensively mirrored around the world, so look for a copy
+       near you (you will get much better response).
+
+   [1mFTP by EMail[0m
+       For those of you without Web or FTP access, I recommend the use of an
+       ftp-by-email server.  Here is a list of a few (there may be more):
+
+                    ftpmail@cs.uow.edu.au          Australia
+                    ftpmail@ftp.uni-stuttgart.de   Germany
+                    ftpmail@grasp.insa-lyon.fr     France
+                    ftpmail@doc.ic.ac.uk           Great Britain
+                    ftpmail@ieunet.ie              Ireland
+                    ftpmail@sunsite.unc.edu        USA
+                    ftpmail@ftp.uu.net             USA
+
+       In general, you can get a help message about how to use each system by
+       sending email with a subject of "help" and a message body containing
+       just the word "help".
+
+[1mBUILDING SRECORD[0m
+       Full instructions for building [4mSRecord[24m may be found in the [4mBUILDING[0m
+       file included in this distribution.
+
+       It is also possible to build [4mSRecord[24m on Windows using the Cygwin
+       (www.cygwin.com) or DJGPP (www.delorie.com/djgpp) environments.
+       Instructions are in the [4mBUILDING[24m file, including how to get native
+       Windows binaries.
+
+[1mCOPYRIGHT[0m
+       [4msrecord[24m version 1.16
+       Copyright (C) 1998, 1999, 2000, 2001, 2002, 2003 Peter Miller; All
+       rights reserved.
+
+       This program is free software; you can redistribute it and/or modify it
+       under the terms of the GNU General Public License as published by the
+       Free Software Foundation; either version 2 of the License, or (at your
+       option) any later version.
+
+       This program is distributed in the hope that it will be useful, but
+       WITHOUT ANY WARRANTY; without even the implied warranty of
+       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+       General Public License for more details.
+
+       You should have received a copy of the GNU General Public License along
+       with this program; if not, write to the Free Software Foundation, Inc.,
+       59 Temple Place, Suite 330, Boston, MA 02111, USA.
+
+       It should be in the [4mLICENSE[24m file included with this distribution.
+
+[1mAUTHOR[0m
+       Peter Miller   E-Mail:   millerp@canb.auug.org.au
+       /\/\*          WWW:      http://www.canb.auug.org.au/~millerp/
+
+
+
+
+
+
+
+
+
+
+
+
+[1mRELEASE NOTES[0m
+       This section details the various features and bug fixes of the various
+       releases.  For excruciating and complete detail, and also credits for
+       those of you who have generously sent me suggestions and bug reports,
+       see the [4metc/CHANGES.*[24m files.
+
+   [1mVersion 1.16[0m
+       * Some updates have been made to cope with GCC 3.2
+
+   [1mVersion 1.15[0m
+       * The Ascii-Hex implementation is now slightly more complete.  I still
+       haven't found a definitive description.
+
+       * The Fairchild Fairbug format has been added for reading and writing.
+
+       * The Spectrum format has been added for reading and writing.
+
+       * The Formatted Binary format has been added for reading and writing.
+
+       * The RCA Cosmac Elf format has been added for reading and writing.
+
+       * The Needham EMP programmer format has been added for reading and
+       writing.
+
+   [1mVersion 1.14[0m
+       * Numerous fixes have been made to header handling.  It is now possible
+       to specify an empty header with the -header command line option.
+
+       * Some more GCC 3.2 build problems have been fixed.
+
+   [1mVersion 1.13[0m
+       * Bugs have been fixed in the Texas Instruments Tagged and VHDL
+       formats, which produced inconsistent output.
+
+       * A couple of build problems have been fixed.
+
+       * There are two new output formats for ASM and BASIC.
+
+   [1mVersion 1.12[0m
+       * It is now possible to put [1m-minimum [4m[22minput.spec[24m (also [1m-maximum [22mand
+       [1m-length[22m) almost anywhere on the command line that you can put a number.
+       It allows, for example, the -offset value to be calculated from the
+       maximum of the previous file.  The values calculated by [1m-Minimum[22m,
+       [1m-Maximum [22mand [1m-Length [22mmay also be rounded to arbitrary boundaries, using
+       [1m-Round_Down[22m, [1m-Round_Nearest [22mand [1m-Round_Up[22m.
+
+       * The malformed Motorola S5 records output by the Green Hills tool
+       chain are now understood.
+
+   [1mVersion 1.11[0m
+       * The Ohio Scientific OS65V audio tape format has been added for
+       reading and writing.
+
+       * Some build problems have been fixed.
+
+   [1mVersion 1.10[0m
+       * The Intel format now emits the redundant extended linear address
+       record at the start of the file; some loaders couldn't cope without it.
+
+       * The Binary format now copes with writing to pipes.
+
+       * The Motorola format now understands the S6 (24-bit data record count)
+       records for reading and writing.
+
+       * The DEC Binary format now works correctly on Windows machines.
+
+       * The LSI Logic Fast Load format is now understood for both reading and
+       writing.
+
+   [1mVersion 1.9[0m
+       * The DEC Binary (XXDP) format is now understood for both reading and
+       writing.
+
+       * The Elektor Monitor (EMON52) format is now understood for both
+       reading and writing.
+
+       * The Signetics format is now understood for both reading and writing.
+
+       * The Four Packed Code (FPC) format is now understood for both reading
+       and writing.
+
+       * Wherever possible, header data is now passed through by [4msrec_cat[24m(1).
+       There is also a new [4msrec_cat[24m [4m-header[24m option, so that you can set the
+       header comment from the command line.
+
+       * The Atmel Generic format for Atmel AVR programmers is now understood
+       for both reading and writing.
+
+       * The handling of termination records has been improved.  It caused
+       problems for a number of filters, including the -fill filter.
+
+       * A bug has been fixed in the checksum calculations for the Tektronix
+       format.
+
+       * There is a new SPASM format for PIC programmers.
+
+   [1mVersion 1.8[0m
+       * There is a new ``unfill'' filter, which may be used to perform the
+       reverse effect of the ``fill'' filter.
+
+       * There is a new bit-wise NOT filter, which may be used to invert the
+       data.
+
+       * A couple of bugs have been fixed in the CRC filters.
+
+   [1mVersion 1.7[0m
+       * The documentation is now in PDF format.  This was in order to make it
+       more accessible to a wider range of people.
+
+       * There is a new [4msrec_cat[24m [4m--address-length[24m option, so that you can set
+       the length of the address fields in the output file.  For example, if
+       you always want S3 data records in a Motorola hex file, use --address-
+       length=4.  This helps when talking to brain-dead EPROM programmers
+       which do not fully implement the format specification.
+
+       * There is a new [4m--multiple[24m option to the commands, which permits an
+       input file to contain multiple (contradictory) values for some memory
+       locations.  The last value in the file will be used.
+
+       * A problem has been fixed which stopped SRecord from building under
+       Cygwin.
+
+       * A bug has been fixed in the C array output.  It used to generate
+       invalid output when the input had holes in the data.
+
+   [1mVersion 1.6[0m
+       * A bug has been fixed in the C array output.  (Holes in the input
+       caused an invalid C file to be produced.)
+
+       * There is are new CRC input filters, both 16-bit and 32-bit, both big
+       and little endian.
+
+       * There is a new VHDL output format.
+
+       * There are new checksum filters: in addition to the existing one's
+       complement (bitnot) checksum filter, there are now negative and
+       positive checksum filters.
+
+       * The checksum filters are now able to sum over 16-bit and 32-bit
+       values, in addition to the existing byte sums.
+
+       * The [4msrec_cmp[24m program now has a [1m--verbose [22moption, which gives more
+       information about how the two inputs differ.
+
+   [1mVersion 1.5[0m
+       * There is now a command line option to guess the input file format;
+       all of the tools understand this option.
+
+       * The ``MOS Technologies'' file format is now understood for reading
+       and writing.
+
+       * The ``Tektronix Extended'' file format is now understood for reading
+       and writing.
+
+       * The ``Texas Instruments Tagged'' file format is now understood for
+       reading and writing.  (Also known as the TI-Tagged or SDSMAC format.)
+
+       * The ``ascii-hex'' file format is now understood for reading and
+       writing.  (Also known as the ascii-space-hex format.)
+
+       * There is a new [4mbyte[24m [4mswap[24m input filter, allowing pairs of odd and even
+       input bytes to be swapped.
+
+       * The ``wilson'' file format is now understood for reading and writing.
+       This mystery format was added for a mysterious type of EPROM writer.
+
+       * The [4msrec_cat[24m program now has a [1m-data-only [22moption, which supresses all
+       output except for the data records.  This helps when talking to brain-
+       dead EPROM programmers which barf at anything but data.
+
+       * There is a new [4m-Line-Length[24m option for the [4msrec_cat[24m program, allowing
+       you to specify the maximum width of output lines.
+
+   [1mVersion 1.4[0m
+       * SRecord can now cope with CRLF sequences in Unix files.  This was
+       unfortunately common where the file was generated on a PC, but SRecord
+       was being used on Unix.
+
+   [1mVersion 1.3[0m
+       * A bug has been fixed which would cause the crop and exclude filters
+       to dump core sometimes.
+
+       * A bug has been fixed where binary files were handled incorrectly on
+       Windows NT (acually, any system in which text files aren't the same as
+       binary files).
+
+       * There are three new data filters.  The --OR filter, which may be used
+       to bit-wise OR a value to each data byte; the --AND filter, which may
+       be used to bit-wise AND a value to each data byte; and the --eXclusive-
+       OR filter, which may be used to bit-wise XOR a value to each data byte.
+
+   [1mVersion 1.2[0m
+       * This release includes file format man pages.  The web page also
+       includes a PostScript reference manual, containing all of the man
+       pages.
+
+       * The Intel hex format now has full 32-bit support.
+
+       * The Tektronix hex format is now supported (only the 16-bit version,
+       Extended tektronix hex is not yet suppported).
+
+       * There is a new [4msplit[24m filter, useful for wide data buses and memory
+       striping, and a complementary [4munsplit[24m filter to reverse it.
+
+   [1mVersion 1.1[0m
+       First public release.
+
+
+
+Reference Manual                    SRecord                   Read Me(SRecord)

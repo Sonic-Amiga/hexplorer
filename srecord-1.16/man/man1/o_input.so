@@ -1,0 +1,368 @@
+.\"
+.\"	srecord - manipulate eprom load files
+.\"	Copyright (C) 1998-2003 Peter Miller;
+.\"	All rights reserved.
+.\"
+.\"	This program is free software; you can redistribute it and/or modify
+.\"	it under the terms of the GNU General Public License as published by
+.\"	the Free Software Foundation; either version 2 of the License, or
+.\"	(at your option) any later version.
+.\"
+.\"	This program is distributed in the hope that it will be useful,
+.\"	but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"	GNU General Public License for more details.
+.\"
+.\"	You should have received a copy of the GNU General Public License
+.\"	along with this program; if not, write to the Free Software
+.\"	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111, USA.
+.\"
+.\" MANIFEST: describe input file specifiers
+.\"
+.SH INPUT FILE SPECIFICATIONS
+Input files may be qualified in a number of ways: you may specify their
+format and you may specify filters to apply to them.
+An input file specification looks like this:
+.RS
+\fIfilename\fP [ \fIformat\fP ][ \fIfilter\fP \&... ]
+.RE
+.PP
+The
+.I filename
+The filename may be specified as a file name,
+or the special name ``-'' which is understood to mean the standard input.
+.SS File Formats
+The
+.I format
+is specified by the argument \fIafter\fP the file name.
+The format defaults to Motorola S-Record if not specified.
+The format specified are:
+.TP 8n
+\fB\-Ascii-Hex\fP
+This option says to use the Ascii-Hex format to read the file.
+See
+.IR srec_ascii_hex (5)
+for a description of this file format.
+.TP 8n
+\fB\-Atmel_Generic\fP
+This option says to use the Atmel Generic format to read the file.
+See
+.IR srec_atmel_genetic (5)
+for a description of this file format.
+.TP 8n
+\fB\-Binary\fP
+This option says the file is a raw binary file, and should be read literally.
+(May also be written \-Raw.)
+.TP 8n
+\fB\-COsmac\fP
+This option says to use the RCA Cosmac Elf format to read the file.
+See \fIsrec_cosmac\fP(5) for a description of this file format.
+.TP 8n
+\fB\-Dec_Binary\fP
+This option says to use the DEC Binary (XXDP) format to read the file.
+See \fIsrec_dec_binary\fP(5) for a description of this file format.
+.TP 8n
+\fB\-Elektor_Monitor52\fP
+This option says to use the EMON52 format to read the file.
+See \fIsrec_emon52\fP(5) for a description of this file format.
+.TP 8n
+\fB\-FAIrchild\fP
+This option says to use the Fairchild Fairbug format to read the file.
+See \fIsrec_fairchild\fP(5) for a description of this file format.
+.TP 8n
+\fB\-Fast_Load\fP
+This option says to use the LSI Logic Fast Load format to read the file.
+See \fIsrec_fastload\fP(5) for a description of this file format.
+.TP 8n
+\fB\-Formatted_Binary\fP
+This option says to use the Formatted Binary format to read the file.
+See \fIsrec_formatted_binary\fP(5) for a description of this file format.
+.TP 8n
+\fB\-Four_Packed_Code\fP
+This option says to use the FPC format to read the file.
+See \fIsrec_fpc\fP(5) for a description of this file format.
+.TP 8n
+\fB\-Guess\fP
+This option may be uased to ask \*(n) to guess the input format.
+This is slower than specifying an explicit format,
+as it may open and close the file a number of times.
+.TP 8n
+\fB\-Intel\fP
+This option says to use the Intel hex format to read the file.
+See
+.IR srec_intel (5)
+for a description of this file format.
+.TP 8n
+\fB\-MOS_Technologies\fP
+This option says to use the Mos Technologies format to read the file.
+See
+.IR srec_mos_tech (5)
+for a description of this file format.
+.TP 8n
+\fB\-Motorola\fP
+This option says to use the Motorola S-Record format to read the file.
+(May also be written \-S-Record.)
+See
+.IR srec_motorola (5)
+for a description of this file format.
+.TP 8n
+\fB\-Needham_Hexadecimal\fP
+This option says to use the Needham Electronics ASCII file format to
+read the file.  See \fIsrec_needham\fP(5) for a description of this
+file format.
+.TP 8n
+\fB\-Ohio_Scientific\fP
+This option says to use the Ohio Scientific format.
+See \fIsrec_os65v\fP(5) for a description of this file format.
+.TP 8n
+\fB\-SIGnetics\fP
+This option says to use the Signetics format.
+See \fIsrec_spasm\fP(5) for a description of this file format.
+.TP 8n
+\fB\-SPAsm\fP
+This option says to use the SPASM assembler output format (commonly used
+by PIC programmers).
+See \fIsrec_spasm\fP(5) for a description of this file format.
+.TP 8n
+\fB\-SPAsm_LittleEndian\fP
+This option says to use the SPASM assembler output format (commonly used
+by PIC programmers).  But with the data the other way around.
+.TP 8n
+\fB\-Tektronix\fP
+This option says to use the Tektronix hex format to read the file.
+See
+.IR srec_tektronix (5)
+for a description of this file format.
+.TP 8n
+\fB\-Tektronix_Extended\fP
+This option says to use the Tektronix extended hex format to read the file.
+See
+.IR srec_tektronix_extended (5)
+for a description of this file format.
+.TP 8n
+\fB\-Texas_Instruments_Tagged\fP
+This option says to use the Texas Instruments Tagged format to read the file.
+See
+.IR srec_ti_tagged (5)
+for a description of this file format.
+.TP 8n
+\fB\-WILson\fP
+This option says to use the wilson format to read the file.
+See
+.IR srec_wilson (5)
+for a description of this file format.
+.SS Input Filters
+You may specify zero or more \fIfilters\fP to be applied.
+Filters are applied in the order the user specifies.
+.TP 8n
+\fB\-Big_Endian_Checksum_BitNot\fP \fIaddress\fP [ \fInbytes\fP [ \fIwidth\fP ]]
+This filter may be used to insert the one's complement checksum of the
+data into the data, most significant byte first.
+The data is literaly summed; if there are duplicate bytes, this will
+produce an incorrect result, if there are holes, it will be as if they were
+filled with zeros.
+If the data already contains bytes at the checksum location,
+you need to use an exclude filter, or this will generate errors.
+You need to apply and crop or fill filters before this filter.
+The value will be written with the most significant byte first.
+The number of bytes of resulting checksum defaults to 4.
+The width (the width in bytes of the values being summed) defaults to 1.
+.TP 8n
+\fB\-Big_Endian_Checksum_Negative\fP \fIaddress\fP [ \fInbytes\fP [ \fIwidth\fP ]]
+This filter may be used to insert the two's complement (negative)
+checksum of the data into the data.  Otherwise similar to the above.
+.TP 8n
+\fB\-Big_Endian_Checksum_Positive\fP \fIaddress\fP [ \fInbytes\fP [ \fIwidth\fP ]]
+This filter may be used to insert the simple checksum of the data into
+the data.  Otherwise similar to the above.
+.TP 8n
+\fB\-Little_Endian_Checksum_BitNot\fP \fIaddress\fP [ \fInbytes\fP [ \fIwidth\fP ]]
+This filter may be used to insert the one's complement (bitnot)
+checksum of the data into the data, least significant byte first.
+Otherwise similar to the above.
+.TP 8n
+\fB\-Little_Endian_Checksum_Negative\fP \fIaddress\fP [ \fInbytes\fP [ \fIwidth\fP ]]
+This filter may be used to insert the two's complement (negative)
+checksum of the data into the data.  Otherwise similar to the above.
+.TP 8n
+\fB\-Little_Endian_Checksum_Negative\fP \fIaddress\fP [ \fInbytes\fP [ \fIwidth\fP ]]
+This filter may be used to insert the simple checksum of the data into
+the data.  Otherwise similar to the above.
+.TP 8n
+\fB\-Byte_Swap\fP
+This filter may be used to swap pairs of odd and even bytes.
+.TP 8n
+\fB\-Big_Endian_CRC16\fP \fIaddress\fP
+This filter may be used to insert an industry standard 16-bit CRC checksum
+of the data into the data.  Two bytes, big-endian order, are inserted
+at the address given.  Holes in the input data are ignored.  Bytes are
+processed in ascending address order (\fInot\fP in the order they appear
+in the input).
+.TP 8n
+\fB\-Big_Endian_CRC16\fP \fIaddress\fP
+As above, except little-endian order.
+.TP 8n
+\fB\-Big_Endian_CRC32\fP \fIaddress\fP
+This filter may be used to insert an industry standard 32-bit CRC checksum
+of the data into the data.  Four bytes, big-endian order, are inserted
+at the address given.  Holes in the input data are ignored.  Bytes are
+processed in ascending address order (\fInot\fP in the order they appear
+in the input).
+.TP 8n
+\fB\-Big_Endian_CRC32\fP \fIaddress\fP
+As above, except little-endian order.
+.TP 8n
+\fB\-Crop\fP \fIaddress-range\fP
+This filter may be used to isolate a section of data, and discard the
+rest.
+.TP 8n
+\fB\-Exclude\fP \fIaddress-range\fP
+This filter may be used to exclude a section of data, and keep the rest.
+The is the logical complement of the \fB\-Crop\fP filter.
+.TP 8n
+\fB\-Fill\fP \fIvalue\fP \fIaddress-range\fP
+This filter may be used to fill any gaps in the data with bytes equal
+to \fIvalue\fP.  The fill will only occur in the address range given.
+.TP 8n
+\fB\-UnFill\fP \fIvalue\fP [ \fImin-run-length\fP ]
+This filter may be used to create gaps in the data with bytes equal
+to \fIvalue\fP.  You can think of it as reversing the effects of the
+\fB\-Fill\fP filter.  The gaps will only be created if the are at least
+\fImin-run-length\fP bytes in a row (defaults to 1).
+.TP 8n
+\fB\-AND\fP \fIvalue\fP
+This filter may be used to bit-wise AND a \fIvalue\fP to every data byte.
+This is useful if you need to clear bits.
+Only existing data is altered, no holes are filled.
+.TP 8n
+\fB\-eXclusive-OR\fP \fIvalue\fP
+This filter may be used to bit-wise XOR a \fIvalue\fP to every data byte.
+This is useful if you need to invert bits.
+Only existing data is altered, no holes are filled.
+.TP 8n
+\fB\-OR\fP \fIvalue\fP
+This filter may be used to bit-wise OR a \fIvalue\fP to every data byte.
+This is useful if you need to set bits.
+Only existing data is altered, no holes are filled.
+.TP 8n
+\fB\-NOT\fP
+This filter may be used to bit-wise NOT the value of every data byte.
+This is useful if you need to invert the data.
+Only existing data is altered, no holes are filled.
+.TP 8n
+\fB\-Big_Endian_Length\fP \fIaddress\fP [ \fInbytes\fP ]
+This filter may be used to insert the length of the data (high water
+minus low water) into the data.  This includes the length itself.
+If the data already contains bytes at the length location,
+you need to use an exclude filter, or this will generate errors.
+The value will be written with the most significant byte first.
+The number of bytes defaults to 4.
+.TP 8n
+\fB\-Little_Endian_Length\fP \fIaddress\fP [ \fInbytes\fP ]
+As above, however
+the value will be written with the least significant byte first.
+.TP 8n
+\fB\-Big_Endian_MAXimum\fP \fIaddress\fP [ \fInbytes\fP ]
+This filter may be used to insert the maximum address of the data (high water
+ + 1) into the data.  This includes the maximum itself.
+If the data already contains bytes at the given address,
+you need to use an exclude filter, or this will generate errors.
+The value will be written with the most significant byte first.
+The number of bytes defaults to 4.
+.TP 8n
+\fB\-Little_Endian_MAXimum\fP \fIaddress\fP [ \fInbytes\fP ]
+As above, however
+the value will be written with the least significant byte first.
+.TP 8n
+\fB\-Big_Endian_MINimum\fP \fIaddress\fP [ \fInbytes\fP ]
+This filter may be used to insert the minimum address of the data (low
+water) into the data.  This includes the minimum itself.
+If the data already contains bytes at the given address,
+you need to use an exclude filter, or this will generate errors.
+The value will be written with the most significant byte first.
+The number of bytes defaults to 4.
+.TP 8n
+\fB\-Little_Endian_MINimum\fP \fIaddress\fP [ \fInbytes\fP ]
+As above, however
+the value will be written with the least significant byte first.
+.TP 8n
+\fB\-OFfset\fP \fInbytes\fP
+This filter may be used to
+offset the addresses by the given number of bytes.
+No data is lost, the addresses will wrap around in 32 bits, if necessary.
+.TP 8n
+\fB\-SPlit\fP \fImultiple\fP [ \fIoffset\fP [ \fIwidth\fP ] ]
+This filter may be used to split the input into a subset of the data,
+and compress the address range so as to leave no gaps.  This useful for
+wide data buses and memory striping.  The \fImultiple\fP is the bytes
+multiple to split over, the \fIoffset\fP is the byte offset into this
+range (defaults to 0), the \fIwidth\fP is the number of bytes to extract
+(defaults to 1) within the multiple.  In order to leave no gaps, the
+output addresses are (\fIwidth\fP / \fImultiple\fP) times the input addresses.
+.TP 8n
+\fB\-Un_SPlit\fP \fImultiple\fP [ \fIoffset\fP [ \fIwidth\fP ] ]
+This filter may be used to reverse the effects of the split filter.
+The arguments are identical.
+Note that the address range is expanded (\fImultiple\fP / \fIwidth\fP) times,
+leaving holes between the stripes.
+.SS Address Ranges
+There are three ways to specify an address range:
+.TP 8n
+\fIminimum\fP \fImaximum\fP
+If you specify two number on the command line (decimal, octal and
+hexadecimal are understood, using the C conventions) this is an explicit
+address range.  The minimum is inclusive, the maximum is exclusive (one
+more than the last address).  If the maximum is given as zero then the
+range extends to the end of the address space.
+.TP 8n
+\fB\-Within\fP \fIinput-specification\fP
+This says to use the specified input file as a mask.  The range
+includes all the places the specified input has data, and holes where
+it has holes.  The input specification need not be just a file name,
+it may be anything any other input specification can be.
+.TP 8n
+\fB\-OVER\fP \fIinput-specification\fP
+This says to use the specified input file as a mask.  The range
+extends from the minimum to the maximum address used by the input, and
+ignores any holes.  The input specification need not be just a file name,
+it may be anything any other input specification can be.
+.PP
+In addition, all of these methods may be used, and used more than once,
+and the results will be added together.
+.SS Calculated Values
+Most of the places above where a number is expected, you may supply one
+of the following:
+.TP 8n
+\fB\-MINimum\fP \fIinput-specification\fP
+This inserts the minimum address of the specified input file. 
+The input specification need not be just a file name,
+it may be anything any other input specification can be.
+.TP 8n
+\fB\-MAXimum\fP \fIinput-specification\fP
+This inserts the maximum address of the specified input file, plus one. 
+The input specification need not be just a file name,
+it may be anything any other input specification can be.
+.TP 8n
+\fB\-Length\fP \fIinput-specification\fP
+This inserts the length of the address range in the specified input file,
+ignoring any holes.  The input specification need not be just a file name,
+it may be anything any other input specification can be.
+.PP
+For example, the \fB-OVER\fP \fIfile\fP option can be thought of a
+short-hand for
+\fB( \-min\fP \fIfile\fP \fB\-max\fP \fIfile\fP \fB)\fPi, except that it is
+much easier to type, and also more efficient.
+.PP
+In addition, calculated values may optionally be rounded in one of three ways:
+.TP 8n
+\fIvalue\fP \fB\-Round_Down\fP \fInumber\fP
+The \fIvalue\fP is rounded down to the the largest integer smaller than
+or equal to a whole multiple of the \fInumber\fP.
+.TP 8n
+\fIvalue\fP \fB\-Round_Nearest\fP \fInumber\fP
+The \fIvalue\fP is rounded to the the nearest whole multiple of
+the \fInumber\fP.
+.TP 8n
+\fIvalue\fP \fB\-Round_Up\fP \fInumber\fP
+The \fIvalue\fP is rounded up to the the smallest integer larger than
+or equal to a whole multiple of the \fInumber\fP.

@@ -1,0 +1,783 @@
+/******************************************************
+Hexplorer resource script.
+Core written (C)2002 by ICY. All rights reserved.
+Compile with mingw32 (mingw.org) a gcc for Windows.
+******************************************************/
+
+#include"c:\mingw\include\winuser.h"
+
+
+500 ICON "hexplorer.ico"
+501 ICON "open.ico"
+502 ICON "openb.ico"
+
+503 ICON "cut.ico"
+504 ICON "cutb.ico"
+
+505 ICON "copy.ico"
+506 ICON "copyb.ico"
+
+507 ICON "paste.ico"
+508 ICON "pasteb.ico"
+
+509 ICON "find.ico"
+510 ICON "findb.ico"
+
+511 ICON "replace.ico"
+512 ICON "replaceb.ico"
+
+513 ICON "find_next.ico"
+514 ICON "find_nextb.ico"
+
+515 ICON "goto.ico"
+516 ICON "gotob.ico"
+
+517 ICON "g0.ico"
+518 ICON "g0b.ico"
+
+519 ICON "l.ico"
+520 ICON "lb.ico"
+
+521 ICON "r.ico"
+522 ICON "rb.ico"
+
+
+530 ICON "delete.ico"
+531 ICON "plus.ico"
+532 ICON "minus.ico"
+533 ICON "system.ico"
+534 ICON "select.ico"
+535 ICON "clone.ico"
+536 ICON "goto_small.ico"
+
+
+MAIN_MENU MENU FIXED PURE
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&New",                        102
+        MENUITEM "&Open...\tCtrl+O",                    103
+        //MENUITEM "Open Partia&lly...",               120
+        MENUITEM "&Reload",                     108
+        MENUITEM "&Save",                       104
+        MENUITEM "Save &As...",                 105
+        MENUITEM "&Execute",                     109
+        MENUITEM SEPARATOR
+        POPUP "Recen&t"
+        BEGIN
+            MENUITEM "Empty",                       200, GRAYED
+            MENUITEM "Empty",                       201, GRAYED
+            MENUITEM "Empty",                       202, GRAYED
+            MENUITEM "Empty",                       203, GRAYED
+            MENUITEM "Empty",                       204, GRAYED
+            MENUITEM "Empty",                       205, GRAYED
+            MENUITEM "Empty",                       206, GRAYED
+            MENUITEM "Empty",                       207, GRAYED
+            MENUITEM "Empty",                       208, GRAYED
+            MENUITEM "Empty",                       209, GRAYED
+            MENUITEM "Empty",                       210, GRAYED
+            MENUITEM "Empty",                       211, GRAYED
+            MENUITEM "Empty",                       212, GRAYED
+            MENUITEM "Empty",                       213, GRAYED
+            MENUITEM "Empty",                       214, GRAYED
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "&Print...",                    106
+        MENUITEM "&Date, Time and Attributes...", 113
+        MENUITEM SEPARATOR
+        //MENUITEM "&Insert File...",             107
+        POPUP "Import"
+        BEGIN
+          MENUITEM "Ascii Hex",                    2501
+          MENUITEM "Atmel Generic (big endian)",   2502
+          MENUITEM "Atmel Generic (low endian)",   2522
+          MENUITEM "DEC Binary (XXDP)",            2503
+          MENUITEM "Elektor Monitor (EMON52)",     2504
+          MENUITEM "LSI Logic Fast Load",          2505
+          MENUITEM "Four Packed Code (FPC)",       2506
+          MENUITEM "Intel Hex",                    2507
+          MENUITEM "MOS Technologies",             2508
+          MENUITEM "Motorola S-Record",            2509
+          MENUITEM "OS65V Loader",                 2510
+          MENUITEM "Signetics",                    2511
+          MENUITEM "SPASM",                        2512
+          MENUITEM "Tektronix hexadecimal",        2513
+          MENUITEM "Tektronix Extended hexadecimal", 2514
+          MENUITEM "Texas Instruments Tagged",     2515
+          MENUITEM "Wilson",                       2516
+          MENUITEM "RCA Cosmac",                    2517
+          MENUITEM "Fairchild Fairbug",            2518
+          MENUITEM "Formatted Binary",             2519
+          MENUITEM "Needham",                      2520
+          MENUITEM "Spectrum",                      2521
+        END
+
+        POPUP "Export"
+        BEGIN
+          MENUITEM "Ascii Hex",                    2601
+          MENUITEM "Atmel Generic",                2602
+          MENUITEM "DEC Binary (XXDP)",            2603
+          MENUITEM "Elektor Monitor (EMON52)",     2604
+          MENUITEM "LSI Logic Fast Load",          2605
+          MENUITEM "Four Packed Code (FPC)",       2606
+          MENUITEM "Intel Hex",                    2607
+          MENUITEM "MOS Technologies",             2608
+          MENUITEM "Motorola S-Record",            2609
+          MENUITEM "OS65V Loader",                 2610
+          MENUITEM "Signetics",                    2611
+          MENUITEM "SPASM" ,                       2612
+          MENUITEM "Tektronix hexadecimal",        2613
+          MENUITEM "Tektronix Extended hexadecimal", 2614
+          MENUITEM "Texas Instruments Tagged",     2615
+          MENUITEM "Wilson",                       2616
+          MENUITEM "RCA Cosmac",                    2617
+          MENUITEM "Fairchild Fairbug",            2618
+          MENUITEM "Formatted Binary",             2619
+          MENUITEM "Needham",                      2620
+          MENUITEM "Spectrum",                      2621
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       101
+    END
+    POPUP "&Disk"
+    BEGIN
+        MENUITEM SEPARATOR,                    2666
+        MENUITEM "Next Sector(s)\tF12",                 2302
+        MENUITEM "Previous Sector(s)\tF11",             2303
+        MENUITEM "Write Sector(s)",             2304
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Undo\tCtrl+Z",                 121
+        MENUITEM SEPARATOR
+        MENUITEM "Cu&t",                        123
+        MENUITEM "&Copy\tCtrl+C",               124
+        POPUP "Copy As"
+        BEGIN
+            MENUITEM "&C data",                110
+            MENUITEM "&Hex string",               111
+            MENUITEM "&Assembler data",         112
+            MENUITEM "Filtered &text",            114
+            MENUITEM "Di&sassembled code",            116
+            MENUITEM SEPARATOR
+            MENUITEM "&New File...",               115
+        END
+        MENUITEM "&Paste / Writeover\tCtrl+V",    125
+        POPUP "Paste MRU"
+        BEGIN
+            MENUITEM "Empty",          700, GRAYED
+            MENUITEM "Empty",          701, GRAYED
+            MENUITEM "Empty",          702, GRAYED
+            MENUITEM "Empty",          703, GRAYED
+            MENUITEM "Empty",          704, GRAYED
+            MENUITEM "Empty",          705, GRAYED
+            MENUITEM "Empty",          706, GRAYED
+            MENUITEM "Empty",          707, GRAYED
+            MENUITEM "Empty",          708, GRAYED
+            MENUITEM "Empty",          709, GRAYED
+            MENUITEM "Empty",          710, GRAYED
+            MENUITEM "Empty",          711, GRAYED
+            MENUITEM "Empty",          712, GRAYED
+            MENUITEM "Empty",          713, GRAYED
+            MENUITEM "Empty",          714, GRAYED
+        END
+        POPUP "Paste external text"
+        BEGIN
+            MENUITEM "As Is",                    174
+            MENUITEM "As hex numbers", 175
+            MENUITEM "As floats",    176
+            MENUITEM "As doubles",    177
+            MENUITEM "As bytes",    178
+            MENUITEM "As words",    179
+            MENUITEM "As double words",    180
+        END
+        MENUITEM "&Delete\tDel",                126
+        MENUITEM "Select &All\tCtrl+A",          136
+        MENUITEM SEPARATOR
+        MENUITEM "Paste Cha&in...",               135
+        POPUP "&Operation"
+        BEGIN
+            MENUITEM "&Reset Selection",               137
+            MENUITEM "Fi&ll Selection...",            134
+            MENUITEM "Pseudo Random Numbers",         140
+            MENUITEM "&XOR Selection...",             171
+            MENUITEM "&OR Selection...",              172
+            MENUITEM "AND &Selection...",             173
+            MENUITEM "Increment Byte(s)\tF7",       132
+            MENUITEM "Decrement Byte(s)\tF8",       133
+            MENUITEM "Ne&gate Selection",             170
+            MENUITEM SEPARATOR
+            MENUITEM "Swap bytes (16 bit)",          138
+            MENUITEM "Swap bytes (32 bit)",          139
+            MENUITEM "Swap bytes (64 bit)",          144
+            MENUITEM "Flip bytes",                    159
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "&Find...\tCtrl+F",            127
+        MENUITEM "&Replace...",                 128
+        MENUITEM "Find &Next\tF3",              129
+        MENUITEM "Find Pr&evious\tF2",          130
+    END
+    POPUP "&View"
+    BEGIN
+        MENUITEM "Go To &Address...\tF5",           131
+        MENUITEM SEPARATOR
+        POPUP "&Go To"
+        BEGIN
+            MENUITEM "Go To Position #&0\tCtrl+0",          190
+            MENUITEM "Go To Position #&1\tCtrl+1",          191
+            MENUITEM "Go To Position #&2\tCtrl+2",          192
+            MENUITEM "Go To Position #&3\tCtrl+3",          193
+            MENUITEM "Go To Position #&4\tCtrl+4",          194
+            MENUITEM "Go To Position #&5\tCtrl+5",          195
+            MENUITEM "Go To Position #&6\tCtrl+6",          196
+            MENUITEM "Go To Position #&7\tCtrl+7",          197
+            MENUITEM "Go To Position #&8\tCtrl+8",          198
+            MENUITEM "Go To Position #&9\tCtrl+9",          199
+        END
+        POPUP "&Remember As"
+        BEGIN
+            MENUITEM "Position #&0\tShift+Ctrl+0",          160
+            MENUITEM "Position #&1\tShift+Ctrl+1",          161
+            MENUITEM "Position #&2\tShift+Ctrl+2",          162
+            MENUITEM "Position #&3\tShift+Ctrl+3",          163
+            MENUITEM "Position #&4\tShift+Ctrl+4",          164
+            MENUITEM "Position #&5\tShift+Ctrl+5",          165
+            MENUITEM "Position #&6\tShift+Ctrl+6",          166
+            MENUITEM "Position #&7\tShift+Ctrl+7",          167
+            MENUITEM "Position #&8\tShift+Ctrl+8",          168
+            MENUITEM "Position #&9\tShift+Ctrl+9",          169
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "&Highlight String...",        141
+        MENUITEM "Simple &Data Types",            146
+        MENUITEM "Pixel View",                   154
+        MENUITEM "Disa&ssembler",                   158
+        MENUITEM "Na&vigator",                    157
+        MENUITEM "Windows Calculator",            156
+        MENUITEM SEPARATOR
+        MENUITEM "&Options...",                145
+    END
+    POPUP "&Structures"
+    BEGIN
+        MENUITEM SEPARATOR,                      666
+        MENUITEM "Add &New...",                   299
+    END
+    POPUP "&Crypto"
+    BEGIN
+        MENUITEM "Encryption...",               143
+        MENUITEM "Find &Pattern",                 260
+        MENUITEM "Fourier transform",             261
+        MENUITEM "File &Type",           142
+        MENUITEM "Byte &occurence",               149
+        MENUITEM "Check&sum",                     147
+    END
+    POPUP "&Macro"
+    BEGIN
+        MENUITEM SEPARATOR,                       665
+        MENUITEM "&Record...",                   398
+        MENUITEM "&Stop",                        399
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&Help\tF1",                       150
+        MENUITEM SEPARATOR
+        MENUITEM "Visit ICY's Homepage",         151
+        MENUITEM "Report a bug",         153
+        MENUITEM "Check for newer version",      155
+        MENUITEM SEPARATOR
+        MENUITEM "&About...",                   152
+    END
+END
+CONTEXT MENU FIXED PURE
+BEGIN
+    POPUP "Edit"
+    BEGIN
+        MENUITEM "Cut",                        123
+        MENUITEM "Copy\tCtrl+C",                       124
+        POPUP "Copy As"
+        BEGIN
+            MENUITEM "&C data",                110
+            MENUITEM "&Hex string",               111
+            MENUITEM "&Assembler data",         112
+            MENUITEM "Filtered &text",            114
+            MENUITEM "Di&sassembled code",            116
+            MENUITEM SEPARATOR
+            MENUITEM "&New File",                 115
+        END
+        MENUITEM "&Paste / Writeover\tCtrl+V",    125
+        POPUP "Paste external text"
+        BEGIN
+            MENUITEM "As Is",                    174
+            MENUITEM "As hex numbers", 175
+            MENUITEM "As floats",    176
+            MENUITEM "As doubles",    177
+            MENUITEM "As bytes",    178
+            MENUITEM "As words",    179
+            MENUITEM "As double words",    180
+        END
+        MENUITEM "Delete\tDel",                126
+        MENUITEM "Select All\tCtrl+A",                  136
+        MENUITEM SEPARATOR
+        MENUITEM "Reset Selection",             137
+        MENUITEM "Pseudo Random Numbers",       140
+        MENUITEM "Increment Byte(s)\tF7",      132
+        MENUITEM "Decrement Byte(s)\tF8",      133
+        MENUITEM "Negate Selection",            170
+        MENUITEM SEPARATOR
+        POPUP "&Remember As"
+        BEGIN
+            MENUITEM "Position #&0",          160
+            MENUITEM "Position #&1",          161
+            MENUITEM "Position #&2",          162
+            MENUITEM "Position #&3",          163
+            MENUITEM "Position #&4",          164
+            MENUITEM "Position #&5",          165
+            MENUITEM "Position #&6",          166
+            MENUITEM "Position #&7",          167
+            MENUITEM "Position #&8",          168
+            MENUITEM "Position #&9",          169
+        END
+
+    END
+END
+
+RADIX MENU FIXED PURE
+BEGIN
+    POPUP "Base"
+    BEGIN
+        MENUITEM "Binary",                     200
+        MENUITEM "Octal",                      201
+        MENUITEM "Decimal",                    202
+        MENUITEM "Hexadecimal",                203
+    END
+END
+
+BPP MENU FIXED PURE
+BEGIN
+    POPUP "BPP"
+    BEGIN
+        MENUITEM "1 bit per pixel",            200
+        MENUITEM "4 bits per pixel",            205
+        MENUITEM "8 bits per pixel",           201
+        MENUITEM "16 bits per pixel",          202
+        MENUITEM "24 bits per pixel",          203
+        MENUITEM "32 bits per pixel",          204
+    END
+END
+
+CUT MENU FIXED PURE
+BEGIN
+    POPUP "CUT"
+    BEGIN
+        MENUITEM "Cut",                        123
+        MENUITEM "Delete",                     126
+    END
+END
+
+REM_BOOK MENU FIXED PURE
+BEGIN
+    POPUP "CUT"
+    BEGIN
+        MENUITEM "Navigator",                     157
+        MENUITEM SEPARATOR
+        MENUITEM "Close"
+    END
+END
+
+TIME DIALOG DISCARDABLE  0, 0, 291, 126
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "File Date, Time and Attributes"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,234,7,50,14
+    PUSHBUTTON      "Close",IDCANCEL,234,24,50,14
+    PUSHBUTTON      "Now",1000,15,100,50,14
+    GROUPBOX        "Date and Time",IDC_STATIC,5,7,135,113
+    GROUPBOX        "Attributes",IDC_STATIC,149,70,135,50
+    COMBOBOX        1001,15,25,100,45,CBS_DROPDOWN |
+                    WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Archive",1002,"Button",BS_AUTOCHECKBOX |
+                    WS_TABSTOP,157,86,40,10
+    CONTROL         "Hidden",1003,"Button",BS_AUTOCHECKBOX |
+                    WS_TABSTOP,157,100,39,10
+    CONTROL         "Read-only",1004,"Button",BS_AUTOCHECKBOX |
+                    WS_TABSTOP,217,86,48,10
+    CONTROL         "System",1005,"Button",BS_AUTOCHECKBOX |
+                    WS_TABSTOP,217,100,39,10
+    EDITTEXT        1006,15,75,15,14,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        1007,45,75,15,14,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        1008,75,75,15,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           ":",IDC_STATIC,37,77,8,8
+    LTEXT           ":",IDC_STATIC,66,77,8,8
+    EDITTEXT        1009,15,50,15,14,ES_AUTOHSCROLL | ES_NUMBER
+    COMBOBOX        1010,35,50,50,130,CBS_DROPDOWN |
+                    WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        1011,90,50,40,14,ES_AUTOHSCROLL | ES_NUMBER
+END
+
+FIND DIALOG DISCARDABLE  10, 10, 246, 118
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Find"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "Find",IDOK,189,7,50,14
+    PUSHBUTTON      "Close",IDCANCEL,189,41,50,14
+    PUSHBUTTON      "Find All",1005,189,24,50,14
+    EDITTEXT        1000,27,13,150,14,ES_AUTOHSCROLL
+    EDITTEXT        1001,27,32,150,14,ES_AUTOHSCROLL
+    LTEXT           "Text:",IDC_STATIC,7,14,17,8
+    LTEXT           "Hex:",IDC_STATIC,7,33,16,8
+
+    CONTROL         "Forward",1011,"Button",BS_AUTORADIOBUTTON,19,70+5,
+                    41,10
+    CONTROL         "Backward",1010,"Button",BS_AUTORADIOBUTTON,19,84+5,
+                    48,10
+    GROUPBOX        "Direction",IDC_STATIC,7,57+5,83,48,WS_GROUP
+    CONTROL         "From cursor",1013,"Button",BS_AUTORADIOBUTTON,110,
+                    71+5,53,10
+    CONTROL         "From the begining",1012,"Button",
+                    BS_AUTORADIOBUTTON,110,84+5,72,10
+    GROUPBOX        "Origin",IDC_STATIC,103,58+5,87,48,WS_GROUP
+    CONTROL         509, IDC_STATIC, "Static", SS_SUNKEN | SS_ICON, 203,75,121,159
+END
+
+REPLACE DIALOG DISCARDABLE  10, 10, 246, 194
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Replace"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "Find",IDOK,189,7,50,14
+    PUSHBUTTON      "Close",IDCANCEL,189,66,50,14
+    EDITTEXT        1000,27,19,150,14,ES_AUTOHSCROLL
+    EDITTEXT        1001,27,38,150,14,ES_AUTOHSCROLL
+    LTEXT           "Text:",IDC_STATIC,7,20,17,8
+    LTEXT           "Hex:",IDC_STATIC,7,39,16,8
+    CONTROL         "Forward",1011,"Button",BS_AUTORADIOBUTTON,19,153,
+                    41,10
+    CONTROL         "Backward",1010,"Button",BS_AUTORADIOBUTTON,19,167,
+                    48,10
+    GROUPBOX        "Direction",IDC_STATIC,7,139,83,48,WS_GROUP
+    CONTROL         "From cursor",1013,"Button",BS_AUTORADIOBUTTON,110,
+                    153,53,10
+    CONTROL         "From the begining",1012,"Button",
+                    BS_AUTORADIOBUTTON,110,167,72,10
+    GROUPBOX        "Origin",IDC_STATIC,103,139,87,48,WS_GROUP
+    PUSHBUTTON      "Replace",1006,189,26,50,14
+    PUSHBUTTON      "Replace All",1007,189,46,50,14
+    GROUPBOX        "",IDC_STATIC,7,63,173,5
+    EDITTEXT        1008,27,92,150,14,ES_AUTOHSCROLL
+    EDITTEXT        1009,27,111,150,14,ES_AUTOHSCROLL
+    LTEXT           "Text:",IDC_STATIC,7,94,17,8
+    LTEXT           "Hex:",IDC_STATIC,7,113,16,8
+    LTEXT           "Replace To:",IDC_STATIC,83,79,40,8
+    LTEXT           "Find:",IDC_STATIC,91,7,16,8
+    CONTROL         511, IDC_STATIC, "Static", 0x00000003L | 0x00001000L, 203,100,121,159
+END
+
+GOTO DIALOG DISCARDABLE  10, 10, 261, 126
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Go To Address"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,204,7,50,14
+    PUSHBUTTON      "Close",IDCANCEL,204,24,50,14
+    PUSHBUTTON      "From cursor",1665,204,50,50,14
+    LTEXT           "Offset:",IDC_STATIC,5,15,34,8
+    LTEXT           "Save this address:",IDC_STATIC,5,35,59,8
+    LTEXT           "Comment it:",IDC_STATIC,5,55,38,8
+    EDITTEXT        1000,70,10,115,14,ES_AUTOHSCROLL
+    COMBOBOX        1001,70,30,115,50,CBS_DROPDOWN | CBS_SORT |
+                    WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        1002,70,50,115,14,ES_AUTOHSCROLL
+    GROUPBOX        "Base",IDC_STATIC,7,70,83,50
+    GROUPBOX        "Origin",IDC_STATIC,100,70,155,50
+    CONTROL         "Hexadecimal",1005,"Button",BS_AUTORADIOBUTTON |
+                    WS_GROUP,15,85,57,10
+    CONTROL         "Decimal",1006,"Button",BS_AUTORADIOBUTTON,15,100,
+                    41,10
+    CONTROL         "Begining of file",1007,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP,110,85,62,10
+    CONTROL         "EOF (backward)",1008,"Button",BS_AUTORADIOBUTTON,
+                    110,100,67,10
+    CONTROL         "Cursor (forward)",1009,"Button",
+                    BS_AUTORADIOBUTTON,180,85,65,10
+    CONTROL         "Cursor (backward)",1010,"Button",
+                    BS_AUTORADIOBUTTON,180,100,73,10
+END
+
+FILL DIALOG DISCARDABLE  10, 10, 247, 85
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Fill Selection"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,190,7,50,14
+    PUSHBUTTON      "Close",IDCANCEL,190,24,50,14
+    EDITTEXT        1000,38,20,139,14,ES_AUTOHSCROLL
+    EDITTEXT        1001,38,46,139,14,ES_AUTOHSCROLL
+    //EDITTEXT        1002,37,71,37,14,ES_AUTOHSCROLL
+    LTEXT           "Text:",IDC_STATIC,7,23,17,8
+    LTEXT           "Hex:",IDC_STATIC,7,48,16,8
+    CONTROL         507, IDC_STATIC, "Static", 0x00000003L | 0x00001000L, 203,55,121,159
+END
+
+DISK DIALOG DISCARDABLE  10, 10, 247, 85
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Open drive"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,190,7,50,14
+    PUSHBUTTON      "Close",IDCANCEL,190,24,50,14
+    EDITTEXT        1000,38+50,20,139-50,14,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        1001,38+50,46,139-50,14,ES_AUTOHSCROLL | ES_NUMBER
+    //EDITTEXT        1002,37,71,37,14,ES_AUTOHSCROLL
+    LTEXT           "Starting sector:",IDC_STATIC,7,23,17+50,8
+    LTEXT           "Sectors to read:",IDC_STATIC,7,48,16+50,8
+    CONTROL         501, IDC_STATIC, "Static", 0x00000003L | 0x00001000L, 203,55,121,159
+END
+
+CHAIN DIALOG DISCARDABLE  10, 10, 247, 95
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Paste Chain"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,190,7,50,14
+    PUSHBUTTON      "Close",IDCANCEL,190,24,50,14
+    EDITTEXT        1000,38,20,139,14,ES_AUTOHSCROLL
+    EDITTEXT        1001,38,46,139,14,ES_AUTOHSCROLL
+    EDITTEXT        1002,38,71,37,14,ES_AUTOHSCROLL
+    EDITTEXT        1005,115,71,62,14,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "Text:",IDC_STATIC,7,23,17,8
+    LTEXT           "Hex:",IDC_STATIC,7,48,16,8
+    LTEXT           "Repeat:",IDC_STATIC,7,73,26,8
+    LTEXT           "time(s).",IDC_STATIC,79,73,23,8
+    CONTROL         507, IDC_STATIC, "Static", 0x00000003L | 0x00001000L, 203,55,121,159
+END
+
+HIGHLIGHT DIALOG DISCARDABLE  10, 10, 245, 70
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Highlight String"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,188,7,50,14
+    PUSHBUTTON      "Close",IDCANCEL,188,24,50,14
+    /*
+    LTEXT           "String that has to be highlighted:",IDC_STATIC,7,
+                    7,120,8*/
+    LTEXT           "Text:",IDC_STATIC,7,24+6,17,8
+    LTEXT           "Hex:",IDC_STATIC,7,42+6,16,8
+    EDITTEXT        1000,28,23+6,147,14,ES_AUTOHSCROLL
+    EDITTEXT        1001,28,41+6,147,14,ES_AUTOHSCROLL
+    COMBOBOX        1005,28,5+6,147,60,CBS_DROPDOWN |
+                    WS_VSCROLL | WS_TABSTOP | CBS_HASSTRINGS
+
+END
+
+UVIEW DIALOG 0, 0, 175+15, 63
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_CHILD
+CAPTION "Simple Data Types"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LISTBOX         1001,0,0,175+15,50+14,LBS_NOINTEGRALHEIGHT | WS_VSCROLL |
+                    WS_TABSTOP
+END
+
+CHECKSUMVIEW DIALOG 0, 0, 175+15, 63
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_CHILD
+CAPTION "Checksum"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LISTBOX         1001,0,0,175,50+14,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "V",1007,175,14,15,14, BS_ICON
+    PUSHBUTTON      "O",1005,175,0,15,14, BS_ICON
+END
+
+NAVIGATORVIEW DIALOG 0, 0, 175+15, 63
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_CHILD
+CAPTION "Navigator"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LISTBOX         1001,0,0,175,50+14,LBS_NOINTEGRALHEIGHT | WS_VSCROLL |
+                    WS_TABSTOP
+
+    PUSHBUTTON      "O",1005,175,0,15,14, BS_ICON
+    PUSHBUTTON      "G",1006,175,14,15,14, BS_ICON
+END
+
+SVIEW DIALOG 0, 0, 175+15, 63
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_CHILD
+CAPTION "Structure Viewer"
+FONT 8, "MS Sans Serif"
+BEGIN
+    COMBOBOX        1000,0,0,80,60,CBS_DROPDOWN |
+                    WS_VSCROLL | WS_TABSTOP | CBS_HASSTRINGS
+    LISTBOX         1001,0,15,175+15,50,LBS_NOINTEGRALHEIGHT | WS_VSCROLL |
+                    WS_TABSTOP
+    PUSHBUTTON      "X",1002,115,0,15,14, BS_ICON
+    PUSHBUTTON      "+",1003,130,0,15,14, BS_ICON
+    PUSHBUTTON      "-",1004,145,0,15,14, BS_ICON
+    PUSHBUTTON      "V",1007,160,0,15,14, BS_ICON
+    PUSHBUTTON      "O",1005,175,0,15,14, BS_ICON
+    EDITTEXT        1006,80,0,35,14,ES_AUTOHSCROLL | ES_READONLY
+END
+
+PIXELVIEW DIALOG 0, 0, 175+15, 63
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_CHILD
+CAPTION "Pixel View"
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "X",1007,0,0,15,14, BS_ICON
+    EDITTEXT        1000,15,0,55,14,ES_AUTOHSCROLL | ES_READONLY
+    PUSHBUTTON      "Set",1002,70,0,25,14
+    EDITTEXT        1003,95,0,50,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "columns",IDC_STATIC,150,3,32,8
+END
+
+PATTERNVIEW DIALOG 0, 0, 175+15, 63
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_CHILD
+CAPTION "Patterns"
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "O",1008,0,0,15,14, BS_ICON
+    LTEXT           "Min size:",IDC_STATIC,30,3,32,8
+    EDITTEXT        1000,65,0,30,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Max size:",IDC_STATIC,100,3,32,8
+    EDITTEXT        1003,135,0,30,14,ES_AUTOHSCROLL | ES_NUMBER
+    PUSHBUTTON      "Set",1002,165,0,25,14
+    LISTBOX         1001,0,15,175+15,50,LBS_NOINTEGRALHEIGHT | WS_VSCROLL |
+                    WS_TABSTOP
+END
+
+FOURIERVIEW DIALOG 0, 0, 175+15, 63
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_CHILD
+CAPTION "Fourier Transform"
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "O",1008,0,0,15,14, BS_ICON
+    PUSHBUTTON      "V",1009,15,0,15,14, BS_ICON
+    LTEXT           "Data:",IDC_STATIC,100-10-30,3,32,8
+    COMBOBOX        1003,135-25-30,0,30+25+30+22,60,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP | CBS_HASSTRINGS
+    LISTBOX         1001,0,15,175+15,50,LBS_NOINTEGRALHEIGHT | WS_VSCROLL |
+                    WS_TABSTOP
+END
+
+SIMPLEVIEW DIALOG 0, 0, 175+15, 63
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_CHILD
+CAPTION "Simple Data Types"
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "O",1008,0,0,15,14, BS_ICON
+    PUSHBUTTON      "V",1009,15,0,15,14, BS_ICON
+    LISTBOX         1001,0,15,175+15,50,LBS_NOINTEGRALHEIGHT | WS_VSCROLL |
+                    WS_TABSTOP
+END
+
+CLIPVIEW DIALOG 0, 0, 175+15, 63
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_CHILD
+CAPTION "Visual Clipboard"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LISTBOX         1001,0,15,175+15,50,LBS_NOINTEGRALHEIGHT | WS_VSCROLL |
+                    WS_TABSTOP
+    PUSHBUTTON      "+",1002,115-50,0,15,14, BS_ICON
+    PUSHBUTTON      "->",1003,130-50,0,15,14, BS_ICON
+    PUSHBUTTON      "-",1004,145-50,0,15,14, BS_ICON
+    PUSHBUTTON      "X",1007,160-50,0,15,14, BS_ICON
+    EDITTEXT        1006,80-80,0,35+30,14,ES_AUTOHSCROLL | ES_READONLY
+END
+
+ADDSTRUCT DIALOG DISCARDABLE  10, 10, 186, 46
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Add New Structure"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,129,7,50,14
+    PUSHBUTTON      "Close",IDCANCEL,129,24,50,14
+    EDITTEXT        1000,7,25,100,14,ES_AUTOHSCROLL
+    LTEXT           "Enter structure name:",IDC_STATIC,7,7,68,8
+END
+
+ADDMEMBER DIALOG DISCARDABLE  10, 10, 226, 71
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Add Structure Member"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,169,7,50,14
+    PUSHBUTTON      "Close",IDCANCEL,169,24,50,14
+    EDITTEXT        1000,40,10,115,14,ES_AUTOHSCROLL
+    EDITTEXT        1002,40,50,60,14,ES_AUTOHSCROLL
+    COMBOBOX        1001,40,30,115,65,CBS_DROPDOWN |
+                    WS_VSCROLL | WS_TABSTOP | LBS_NOTIFY
+    LTEXT           "Name:",IDC_STATIC,5,10,22,8
+    LTEXT           "Type:",IDC_STATIC,5,30,19,8
+    LTEXT           "Number:",IDC_STATIC,5,50,28,8
+END
+
+NEWVALUE DIALOG DISCARDABLE  10, 10, 197, 47
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Enter Value"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,140,7,50,14
+    PUSHBUTTON      "Close",IDCANCEL,140,24,50,14
+    LTEXT           "Enter value:",IDC_STATIC,7,7,81,8
+    EDITTEXT        1000,7,21,112,14,ES_AUTOHSCROLL
+END
+
+REPEAT DIALOG DISCARDABLE  10, 10, 197, 47
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Macro"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,140,7,50,14
+    PUSHBUTTON      "Close",IDCANCEL,140,24,50,14
+    LTEXT           "Repeat:",IDC_STATIC,7,7,81,8
+    EDITTEXT        1000,7,21,112/2,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "time(s)",IDC_STATIC,70,22,41,8
+END
+
+PASS DIALOG DISCARDABLE  10, 10, 197, 47
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Enter Password"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,140,7,50,14
+    PUSHBUTTON      "Close",IDCANCEL,140,24,50,14
+    LTEXT           "Enter password:",IDC_STATIC,7,7,81,8
+    EDITTEXT        1000,7,21,112,14,ES_PASSWORD | ES_AUTOHSCROLL
+END
+
+OPTIONS DIALOG DISCARDABLE  0, 0, 262, 200
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Options"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,150,180,50,14
+    PUSHBUTTON      "Close",IDCANCEL,205,180,50,14
+    GROUPBOX        "Font and colors",IDC_STATIC,5,5,245,65
+    CONTROL         "Always on top",1100,"Button",BS_AUTOCHECKBOX |
+                    WS_TABSTOP,5,140,60,10
+    CONTROL         "Autoalign tool windows",1101,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,5,155,91,10
+    CONTROL         "Hide toolbar",1102,"Button",BS_AUTOCHECKBOX |
+                    WS_TABSTOP,5,170,54,10
+    //CONTROL         "Use Unicode",1107,"Button",BS_AUTOCHECKBOX |
+    //                WS_TABSTOP,5,185,54,10
+
+    COMBOBOX        1000,40,20,145,54,CBS_DROPDOWN |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Font:",IDC_STATIC,10,26,17,8
+    LTEXT           "Colors:",IDC_STATIC,10,50,22,8
+    COMBOBOX        1001,40,46,145,54,CBS_DROPDOWN |
+                    WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Columns",IDC_STATIC,5,75,245,55
+    LTEXT           "Column number:",1009,10,95,52,8
+    EDITTEXT        1002,65,90,30,14,ES_AUTOHSCROLL
+    LTEXT           "Group columns by:",IDC_STATIC,105,95,60,8
+    EDITTEXT        1003,170,90,30,14,ES_AUTOHSCROLL
+    CONTROL         "Automatic column number",1004,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,10,115,97,10
+    PUSHBUTTON      "Add to Send to Menu",1005,170,140,80,14
+    //CONTROL         "Custom1",1006,"",WS_TABSTOP,195,20,45,40
+END
+
