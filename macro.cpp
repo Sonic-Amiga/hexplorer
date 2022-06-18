@@ -20,7 +20,8 @@ macro::macro(char* n)
     mio.dwTypeData = nazwa;
     mio.cch = strlen(nazwa);
     for(mio.dwTypeData+=strlen(mio.dwTypeData); mio.dwTypeData[-1] != '\\'; mio.dwTypeData--);
-    InsertMenuItem(GetMenu(h_main_wnd), 665, FALSE, &mio);
+    HMENU macro_menu = GetSubMenu(GetMenu(h_main_wnd), 6);
+    InsertMenuItem(macro_menu, num, TRUE, &mio);
     modified = 0;
     num++;
 }

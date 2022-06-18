@@ -296,7 +296,8 @@ structure::structure(char* n)
     mio.fType = MFT_STRING;
     mio.dwTypeData = nazwa;
     mio.cch = strlen(nazwa);
-    InsertMenuItem(GetMenu(h_main_wnd), 666, FALSE, &mio);
+    HMENU struct_menu = GetSubMenu(GetMenu(h_main_wnd), 4);
+    InsertMenuItem(struct_menu, serial, TRUE, &mio);
 }
 
 structure::~structure()

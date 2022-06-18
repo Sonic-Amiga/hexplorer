@@ -1548,10 +1548,15 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
 
             char nazwa_dysku[STD_BUF];
             MENUITEMINFO mio;
+            HMENU disk_menu;
+            int n;
             mio.cbSize = sizeof(MENUITEMINFO);
             mio.fMask = MIIM_TYPE | MIIM_ID;
             mio.fType = MFT_STRING;
             mio.dwTypeData = nazwa_dysku;
+
+            disk_menu = GetSubMenu(GetMenu(h_main_wnd), 1);
+            n = 0;
 
             for(char drive='a'; drive<='n'; drive++)
             {
@@ -1569,7 +1574,7 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
 
                 mio.wID = 2000 + drive;
                 mio.cch = strlen(nazwa_dysku);
-                InsertMenuItem(GetMenu(h_main_wnd), 2666, FALSE, &mio);
+                InsertMenuItem(disk_menu, n++, TRUE, &mio);
               }
               delete dysk;
             }
