@@ -104,8 +104,9 @@ void MultiClipboard::ReadAll()
     if(plik != INVALID_HANDLE_VALUE)
     {
         ReadFile(plik, &tot, sizeof(int), &br, NULL);
-        for(int i = 0; i < tot; i++)
-            vc[MultiClipboard::total] = new MultiClipboard(plik);
+        for(int i = 0; i < tot; i++) {
+            Register(new MultiClipboard(plik));
+        }
         CloseHandle(plik);
     }
 }

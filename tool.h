@@ -68,6 +68,9 @@ public:
     int PrintMembers(char tekst[200][200], int radix = 10);
     static void ReadAll();
     static void WriteAll();
+    static void Register(structure* s) {
+        st[s->serial] = s;
+    }
 };
 
 class ChildDlg
@@ -77,8 +80,8 @@ protected:
     int serial;
     void Align();
     void InitTool();
-public:
     static int num;
+public:
     static ChildDlg* svd[30];
     ChildDlg();
     virtual ~ChildDlg();
@@ -87,6 +90,9 @@ public:
     static void free(HWND hDlg);
     static void AlignAll();
     static void DisplayMembers();
+    static void Register(ChildDlg* dlg) {
+        svd[dlg->serial] = dlg;
+    }
 };
 
 class ListChildDlg : public ChildDlg

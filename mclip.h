@@ -26,5 +26,8 @@ public:
     static void ReadAll();
     static void WriteAll();
     static void Copy(unsigned char*, int);
+    static void Register(MultiClipboard* clip) {
+        vc[clip->serial] = clip;
+    }
 };
 #endif

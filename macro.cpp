@@ -87,15 +87,17 @@ void macro::ReadAll()
             int atoms;
             DWORD br;
             MSG atom;
+            int n = num;
+
             GetModulePath(hem_path);
             strcat(hem_path, wfa.cFileName);
-            mac[num] = new macro(hem_path);
+            mac[n] = new macro(hem_path);
             plik = CreateFile(hem_path, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
             ReadFile(plik, &atoms, sizeof(int), &br, NULL);
             for(int i = 0; i < atoms; i++)
             {
                 ReadFile(plik, (char*)&atom+sizeof(HWND), sizeof(UINT)+sizeof(WPARAM)+sizeof(LPARAM), &br, NULL);
-                mac[num - 1]->AddAction(&atom);
+                mac[n]->AddAction(&atom);
             }
             CloseHandle(plik);
         }

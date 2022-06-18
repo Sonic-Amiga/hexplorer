@@ -224,7 +224,7 @@ BOOL CALLBACK AddStructDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, L
                 case IDOK:
                     char tekst[200];
                     GetWindowText(GetDlgItem(hDlg, 1000), tekst, 200);
-                    structure::st[structure::num] = new structure(tekst);
+                    structure::Register(new structure(tekst));
                     EndDialog(hDlg, 0);
                     return TRUE;
                 case IDCANCEL:
@@ -414,11 +414,14 @@ void structure::ReadAll()
         to_create = *(int*)bufor;   bufor += sizeof(int);
         for(int i = 0; i < to_create; i++)
         {
-            st[num] = new structure((char*)bufor);   bufor += strlen((char*)bufor) + 1;
+            structure *s = new structure((char*)bufor);
+
+            structure::Register(s);
+            bufor += strlen((char*)bufor) + 1;
             to_add_members = *(int*)bufor;  bufor += sizeof(int);
             for(int k = 0; k < to_add_members; k++)
             {
-                st[num - 1]->AddMember(
+                s->AddMember(
                     (char*)bufor,
                     *(type*)(bufor + strlen((char*)bufor) + 1),
                     *(int*)(bufor + strlen((char*)bufor) + 1 + sizeof(type))

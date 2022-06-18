@@ -481,7 +481,7 @@ BOOL CALLBACK FindDlgProc(HWND hDlg, unsigned int message, WPARAM wParam, LPARAM
                         n++;
                     }
                     redraw = 1;
-                    ChildDlg::svd[ChildDlg::num] = new NavigatorFindDlg(p, n, hex);
+                    ChildDlg::Register(new NavigatorFindDlg(p, n, hex));
                     if(align_structures)
                         ChildDlg::AlignAll();
 
@@ -3120,32 +3120,32 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
                     );
                     break;
                 case 146:
-                    ChildDlg::svd[ChildDlg::num] = new SimpleDataDlg();
+                    ChildDlg::Register(new SimpleDataDlg());
                     if(align_structures)
                         ChildDlg::AlignAll();
                     break;
                 case 147:
-                    ChildDlg::svd[ChildDlg::num] = new ChecksumDlg();
+                    ChildDlg::Register(new ChecksumDlg());
                     if(align_structures)
                         ChildDlg::AlignAll();
                     break;
                 case 149:
-                    ChildDlg::svd[ChildDlg::num] = new OccurenceDlg();
+                    ChildDlg::Register(new OccurenceDlg());
                     if(align_structures)
                         ChildDlg::AlignAll();
                     break;
                 case 154:
-                    ChildDlg::svd[ChildDlg::num] = new PixelDlg();
+                    ChildDlg::Register(new PixelDlg());
                     if(align_structures)
                         ChildDlg::AlignAll();
                     break;
                 case 158:
-                    ChildDlg::svd[ChildDlg::num] = new DisassemblerDlg();
+                    ChildDlg::Register(new DisassemblerDlg());
                     if(align_structures)
                         ChildDlg::AlignAll();
                     break;
                 case 157:
-                    ChildDlg::svd[ChildDlg::num] = new NavigatorDlg(position, cPosition::MAX_POSITION);
+                    ChildDlg::Register(new NavigatorDlg(position, cPosition::MAX_POSITION));
                     if(align_structures)
                         ChildDlg::AlignAll();
                     break;
@@ -3168,17 +3168,17 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
                     break;
                 case 300: case 301: case 302: case 303: case 304: case 305: case 306: case 307: case 308: case 309:
                 case 310: case 311: case 312: case 313: case 314: case 315: case 316: case 317: case 318: case 319:
-                    ChildDlg::svd[ChildDlg::num] = new SViewerDlg(structure::st[LOWORD(wParam) - 300]);
+                    ChildDlg::Register(new SViewerDlg(structure::st[LOWORD(wParam) - 300]));
                     if(align_structures)
                         ChildDlg::AlignAll();
                     break;
                 case 260:
-                    ChildDlg::svd[ChildDlg::num] = new PatternsDlg();
+                    ChildDlg::Register(new PatternsDlg());
                     if(align_structures)
                         ChildDlg::AlignAll();
                     break;
                 case 261:
-                  ChildDlg::svd[ChildDlg::num] = new FourierDlg();
+                  ChildDlg::Register(new FourierDlg());
                     if(align_structures)
                         ChildDlg::AlignAll();
                   break;
