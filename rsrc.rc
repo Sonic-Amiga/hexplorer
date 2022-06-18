@@ -260,6 +260,9 @@ BEGIN
         MENUITEM "Windows Calculator",            156
         MENUITEM SEPARATOR
         MENUITEM "&Options...",                145
+        MENUITEM SEPARATOR
+        MENUITEM "ASCII with MARK parity (7th bit high)", 1025
+
     END
     POPUP "&Structures"
     BEGIN

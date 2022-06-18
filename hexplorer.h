@@ -13,6 +13,7 @@ extern "C"
 #include"libdisasm/libdis.h"
 }
 extern int pg_offset;
+extern bool strip_bit7;
 
 BOOL CALLBACK SViewDlgProc(HWND, unsigned int, WPARAM, LPARAM);
 BOOL CALLBACK SimpleDataDlgProc(HWND, unsigned int, WPARAM, LPARAM);

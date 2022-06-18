@@ -127,9 +127,15 @@ void TextToHex(char* dest, unsigned char* src)
 {
     while(*src)
     {
-        *dest = ToHex4bits(*src >> 4);
+        unsigned char chr = *src;
+
+        if (strip_bit7) {
+            chr |= 0x80;
+        }
+
+        *dest = ToHex4bits(chr >> 4);
         dest++;
-        *dest = ToHex4bits(*src);
+        *dest = ToHex4bits(chr);
         dest++;
         src++;
     }

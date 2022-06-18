@@ -102,6 +102,7 @@ bool upper4 = 1;
 char saved = 2;
 bool always_ontop = 0;
 bool hide_toolbar = 0;
+bool strip_bit7 = false;
 bool align_structures = 1;
 bool using_unicode=0;
 // files allow inserting & deleting etc. , disks and RAM not; this is "semaphore" to many instructions
@@ -2083,7 +2084,11 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
             if(split)
             {
                 cUndo::undo[cUndo::step] = new cUndo(message, wParam, "Type");
-                pamiec[selected_end] = (unsigned char)wParam;
+                unsigned char chr = wParam;
+                if (strip_bit7) {
+                    chr |= 0x80;
+                }
+                pamiec[selected_end] = chr;
                 if(selected_end < dlugosc_pliku)
                     selected_begin = ++selected_end;
             }
@@ -3160,6 +3165,14 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
                 case 145:
                     DialogBox(hInstance, "OPTIONS", hwnd, OptionsDlgProc);
                     break;
+                case 1025:
+                    hmenu = GetMenu(h_main_wnd);
+                    br = GetMenuState(hmenu, 1025, MF_BYCOMMAND) & MF_CHECKED;
+                    CheckMenuItem(hmenu, 1025, br ^ MF_CHECKED);
+                    strip_bit7 = !br;
+                    // Trigger a redraw
+                    InvalidateRect(h_client_wnd, NULL, 0);
+                    break;
                 case 190: case 191: case 192: case 193: case 194: case 195: case 196: case 197: case 198: case 199:
                     position[LOWORD(wParam) - 190].GoTo();
                     break;
@@ -3358,10 +3371,17 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
                         else
                             SetTextColor(hdc, hexColors::actual->kolor[pamiec[komorka]]);
 
-                        c[0] = ToHex4bits(pamiec[komorka] >> 4);
-                        c[1] = ToHex4bits(pamiec[komorka]);
+                        char chr = pamiec[komorka];
+
+                        c[0] = ToHex4bits(chr >> 4);
+                        c[1] = ToHex4bits(chr);
+                        
+                        if (strip_bit7) {
+                            chr = (chr & 0x80) ? chr & 0x7F : 0;
+                        } 
+
                         TextOut(hdc, panel_left_x, panel_y, (char*)c, 2);
-                        TextOut(hdc, panel_right_x, panel_y, (char*)(pamiec + komorka), 1);
+                        TextOut(hdc, panel_right_x, panel_y, &chr, 1);
 
                         if(highlight_size && !memcmp(pamiec + komorka, highlight, highlight_size))
                             to_highlight = highlight_size;
