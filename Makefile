@@ -9,7 +9,7 @@ SWITCHES = -w $(OPT) -Isrecord-1.16/include
 OBJS := hexplorer.o container.o undo.o position.o fonts.o macro.o filetype.o mclip.o tool.o hex_common.o rsrc.o srec_win_quit.o             libdis.o i386_invariant.o i386.o MessageDigest.o sha.o md5.o ripemd.o mediaaccess.o record.o input.o output.o input_file.o output_file.o                       input_ascii_hex.o input_atmel_generic.o input_dec_binary.o input_emon52.o input_fastload.o input_four_packed_code.o input_intel.o input_mos_tech.o input_srecord.o input_os65v.o input_signetics.o input_spasm.o input_tektronix.o input_tektronix_extended.o input_ti_tagged.o input_wilson.o input_cosmac.o input_fairchild.o input_formatted_binary.o input_needham.o input_spectrum.o                     output_ascii_hex.o output_atmel_generic.o output_dec_binary.o output_emon52.o output_fastload.o output_four_packed_code.o output_intel.o output_mos_tech.o output_srecord.o output_os65v.o output_signetics.o output_spasm.o output_tektronix.o output_tektronix_extended.o output_ti_tagged.o output_wilson.o output_cosmac.o output_fairchild.o output_formatted_binary.o output_needham.o output_spectrum.o progname.o quit.o prefix.o normal.o
 
 hexplo.exe : $(OBJS) about.dll 
-	g++.exe -o hexplo $(OBJS) -lcomctl32 -lole32 -luuid -lwininet -mwindows -static-libstdc++ -static-libgcc
+	g++.exe -o hexplo $(OBJS) -lcomctl32 -lole32 -luuid -lwininet -mwindows -static-libstdc++ -static-libgcc -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic
 
 hexplorer.o : hexplorer.cpp hexplorer.h
 	g++.exe -c hexplorer.cpp $(SWITCHES)
