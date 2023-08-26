@@ -41,7 +41,7 @@ cDiskAccess::cDiskAccess(char num)
 
 unsigned char&cDiskAccess::operator[](__int64 laddr)
 {
-  unsigned char a;
+  static unsigned char a;
   return a;
 }
 

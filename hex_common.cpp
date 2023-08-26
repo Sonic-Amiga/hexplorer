@@ -121,6 +121,7 @@ unsigned char DecryptHex(unsigned char znak)
         case 'e': case 'E': return 0xE;
         case 'f': case 'F': return 0xF;
     }
+    return 0;
 }
 
 void TextToHex(char* dest, unsigned char* src)

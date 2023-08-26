@@ -15,7 +15,7 @@ private:
     int pos;
     char description[50];
 public:
-    const static int MAX_POSITION = 10;
+    constexpr static int MAX_POSITION = 10;
     cPosition();
     cPosition(cPosition&);
     ~cPosition();

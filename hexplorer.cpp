@@ -1249,6 +1249,7 @@ LRESULT CALLBACK OknoGlowne(HWND hwnd, unsigned int message, WPARAM wParam, LPAR
         default:
             return DefWindowProc(hwnd, message, wParam, lParam);
     }
+    return 0;
 }
 
 LRESULT CALLBACK ProceduraTool(HWND hwnd, unsigned int message, WPARAM wParam, LPARAM lParam)
@@ -2326,7 +2327,6 @@ LRESULT CALLBACK ProceduraOkna(HWND hwnd, unsigned int message, WPARAM wParam, L
                                                 c[3] = ToHex4bits((y + (page * clines)) >> 4);
                                                 c[4] = ToHex4bits(y + (page * clines));
                                                 c[5] = '0';
-                                                c[6] = ':';
                                                 TextOut(pd.hDC, 0, y * cyCharP, (char*)c, 7);
                                             }
 
